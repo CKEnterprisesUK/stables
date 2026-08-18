@@ -22,7 +22,9 @@ class StripeSettingsController extends Controller
         if ($settings && $settings->isConnected()) {
             try {
                 $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-                $accountDetails = $stripe->accounts->retrieve($settings->stripe_account_id);
+                $accountDetails = $stripe->v2->core->accounts->retrieve($settings->stripe_account_id, [
+                    'include' => ['identity'],
+                ]);
             } catch (\Exception $e) {
                 // If we can't fetch details, just show the ID
             }
@@ -34,7 +36,7 @@ class StripeSettingsController extends Controller
     /**
      * Start the Stripe Connect onboarding flow.
      *
-     * Creates a Connect account and redirects to Stripe's hosted onboarding.
+     * Creates a Connect account via v2 API and redirects to Stripe's hosted onboarding.
      */
     public function connect(): RedirectResponse
     {
@@ -42,18 +44,27 @@ class StripeSettingsController extends Controller
 
         $settings = StripeSetting::first();
 
-        // Reuse existing account if we already have one pending
+        // Reuse existing account if we already have one pending (must be a v2 account)
+        // Note: v1 account IDs (acct_*) are compatible with v2 APIs after a short delay
         if ($settings && $settings->stripe_account_id) {
             $accountId = $settings->stripe_account_id;
         } else {
-            // Create a new Connect account using controller properties
-            // (equivalent to the legacy 'type' => 'standard' — full dashboard access, Stripe handles requirements)
-            $account = $stripe->accounts->create([
-                'controller' => [
-                    'stripe_dashboard' => ['type' => 'full'],
-                    'fees' => ['payer' => 'account'],
-                    'losses' => ['payments' => 'stripe'],
-                    'requirement_collection' => 'stripe',
+            // Create a new Connect account using the Accounts v2 API
+            // Full dashboard access, Stripe collects fees and handles losses (Standard equivalent)
+            $account = $stripe->v2->core->accounts->create([
+                'dashboard' => 'full',
+                'defaults' => [
+                    'responsibilities' => [
+                        'fees_collector' => 'stripe',
+                        'losses_collector' => 'stripe',
+                    ],
+                ],
+                'configuration' => [
+                    'merchant' => [
+                        'capabilities' => [
+                            'card_payments' => ['requested' => true],
+                        ],
+                    ],
                 ],
             ]);
             $accountId = $account->id;
@@ -64,12 +75,17 @@ class StripeSettingsController extends Controller
             ]);
         }
 
-        // Create an Account Link for onboarding
-        $accountLink = $stripe->accountLinks->create([
+        // Create an Account Link for onboarding via v2 API
+        $accountLink = $stripe->v2->core->accountLinks->create([
             'account' => $accountId,
-            'refresh_url' => route('admin.settings.stripe.connect'),
-            'return_url' => route('admin.settings.stripe.callback'),
-            'type' => 'account_onboarding',
+            'use_case' => [
+                'type' => 'account_onboarding',
+                'account_onboarding' => [
+                    'configurations' => ['merchant'],
+                    'refresh_url' => route('admin.settings.stripe.connect'),
+                    'return_url' => route('admin.settings.stripe.callback'),
+                ],
+            ],
         ]);
 
         return redirect($accountLink->url);
@@ -91,9 +107,21 @@ class StripeSettingsController extends Controller
 
         try {
             $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-            $account = $stripe->accounts->retrieve($settings->stripe_account_id);
+            $account = $stripe->v2->core->accounts->retrieve($settings->stripe_account_id, [
+                'include' => ['configuration.merchant', 'requirements'],
+            ]);
 
-            if ($account->charges_enabled && $account->details_submitted) {
+            // Check if the merchant configuration has active card_payments capability
+            $merchantConfig = $account->configuration->merchant ?? null;
+            $cardPayments = $merchantConfig->capabilities->card_payments ?? null;
+            $isActive = $cardPayments && ($cardPayments->status ?? null) === 'active';
+
+            // Also check if requirements are all satisfied (no currently_due items)
+            $requirements = $account->requirements ?? null;
+            $hasNoCurrentRequirements = !$requirements
+                || empty($requirements->currently_due ?? []);
+
+            if ($isActive || $hasNoCurrentRequirements) {
                 $settings->update([
                     'stripe_connect_status' => 'connected',
                 ]);
@@ -110,7 +138,7 @@ class StripeSettingsController extends Controller
             return redirect()->route('admin.settings.stripe')
                 ->with('error', 'Stripe onboarding is not yet complete. Please finish setting up your account.');
 
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Exception $e) {
             return redirect()->route('admin.settings.stripe')
                 ->with('error', 'Error verifying Stripe account: ' . $e->getMessage());
         }
@@ -181,7 +209,10 @@ class StripeSettingsController extends Controller
     }
 
     /**
-     * Open the connected account's Stripe Express Dashboard.
+     * Open the connected account's Stripe Dashboard.
+     *
+     * For accounts with full dashboard access, redirect to the Stripe login page.
+     * Login links are only supported for Express dashboard accounts.
      */
     public function dashboard(): RedirectResponse
     {
@@ -191,13 +222,7 @@ class StripeSettingsController extends Controller
             return back()->with('error', 'No connected Stripe account.');
         }
 
-        try {
-            $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-            $loginLink = $stripe->accounts->createLoginLink($settings->stripe_account_id);
-
-            return redirect($loginLink->url);
-        } catch (\Stripe\Exception\ApiErrorException $e) {
-            return back()->with('error', 'Could not generate dashboard link: ' . $e->getMessage());
-        }
+        // Full dashboard accounts can log in directly at dashboard.stripe.com
+        return redirect('https://dashboard.stripe.com');
     }
 }

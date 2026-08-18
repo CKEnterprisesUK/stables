@@ -19,6 +19,7 @@ class StripeSetting extends Model
         'stripe_secret_encrypted',
         'webhook_secret_encrypted',
         'price_id',
+        'sponsorship_amount_cents',
         'stripe_account_id',
         'stripe_connect_status',
     ];
@@ -67,5 +68,15 @@ class StripeSetting extends Model
     public function isPending(): bool
     {
         return $this->stripe_connect_status === 'pending';
+    }
+
+    /**
+     * Get the sponsorship amount in whole currency units (e.g. pounds).
+     */
+    public function getSponsorshipAmountAttribute(): ?float
+    {
+        return $this->sponsorship_amount_cents
+            ? $this->sponsorship_amount_cents / 100
+            : null;
     }
 }

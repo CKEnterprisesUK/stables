@@ -15,5 +15,6 @@ class StableBranding extends Model
     protected $fillable = [
         'name',
         'logo_path',
+        'sponsorship_info',
     ];
 }

@@ -30,26 +30,26 @@
                         @if($accountDetails)
                             <div class="mt-3 p-3 bg-stable-50 rounded-lg border border-stable-100">
                                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                    @if($accountDetails->business_profile?->name)
+                                    @if($accountDetails->display_name ?? null)
                                         <div>
                                             <dt class="text-stable-500">Business Name</dt>
-                                            <dd class="font-medium text-stable-900">{{ $accountDetails->business_profile->name }}</dd>
+                                            <dd class="font-medium text-stable-900">{{ $accountDetails->display_name }}</dd>
                                         </div>
                                     @endif
-                                    @if($accountDetails->email)
+                                    @if($accountDetails->contact_email ?? null)
                                         <div>
                                             <dt class="text-stable-500">Email</dt>
-                                            <dd class="font-medium text-stable-900">{{ $accountDetails->email }}</dd>
+                                            <dd class="font-medium text-stable-900">{{ $accountDetails->contact_email }}</dd>
                                         </div>
                                     @endif
                                     <div>
                                         <dt class="text-stable-500">Account ID</dt>
                                         <dd class="font-mono text-xs text-stable-700">{{ $settings->stripe_account_id }}</dd>
                                     </div>
-                                    @if($accountDetails->country)
+                                    @if($accountDetails->identity?->country ?? null)
                                         <div>
                                             <dt class="text-stable-500">Country</dt>
-                                            <dd class="font-medium text-stable-900">{{ strtoupper($accountDetails->country) }}</dd>
+                                            <dd class="font-medium text-stable-900">{{ strtoupper($accountDetails->identity->country) }}</dd>
                                         </div>
                                     @endif
                                 </dl>
