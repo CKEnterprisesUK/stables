@@ -30,7 +30,7 @@
                             </x-nav-link>
                         @endif
 
-                        @if(auth()->user()->role === \App\Enums\UserRole::Admin)
+                        @if(auth()->user()->role->isAdmin())
                             <x-nav-link :href="route('admin.horses.index')" :active="request()->routeIs('admin.*')">
                                 {{ __('Admin Panel') }}
                             </x-nav-link>
@@ -119,7 +119,7 @@
                     </x-responsive-nav-link>
                 @endif
 
-                @if(auth()->user()->role === \App\Enums\UserRole::Admin)
+                @if(auth()->user()->role->isAdmin())
                     <x-responsive-nav-link :href="route('admin.horses.index')" :active="request()->routeIs('admin.*')">
                         {{ __('Admin Panel') }}
                     </x-responsive-nav-link>

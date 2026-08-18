@@ -46,9 +46,15 @@ class StripeSettingsController extends Controller
         if ($settings && $settings->stripe_account_id) {
             $accountId = $settings->stripe_account_id;
         } else {
-            // Create a new Connect account (Standard type — they manage their own dashboard)
+            // Create a new Connect account using controller properties
+            // (equivalent to the legacy 'type' => 'standard' — full dashboard access, Stripe handles requirements)
             $account = $stripe->accounts->create([
-                'type' => 'standard',
+                'controller' => [
+                    'stripe_dashboard' => ['type' => 'full'],
+                    'fees' => ['payer' => 'account'],
+                    'losses' => ['payments' => 'stripe'],
+                    'requirement_collection' => 'stripe',
+                ],
             ]);
             $accountId = $account->id;
 
