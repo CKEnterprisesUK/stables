@@ -7,15 +7,21 @@ use App\Models\Horse;
 use App\Models\SmtpSetting;
 use App\Models\StableBranding;
 use App\Models\StripeSetting;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class SetupController extends Controller
 {
     /**
      * Display the setup checklist for the platform.
+     * If all steps are complete, redirect to the admin horses index.
      */
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
+        if (!static::hasIncompleteSteps()) {
+            return redirect()->route('admin.horses.index');
+        }
+
         $steps = $this->buildChecklist();
         $completedCount = collect($steps)->where('completed', true)->count();
         $totalCount = count($steps);

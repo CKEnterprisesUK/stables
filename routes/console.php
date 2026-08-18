@@ -21,8 +21,7 @@ Artisan::command('inspire', function () {
 
 Schedule::command('queue:work --stop-when-empty --tries=3 --timeout=60')
     ->everyMinute()
-    ->withoutOverlapping()
-    ->runInBackground();
+    ->withoutOverlapping();
 
 // Check for expiring gift sponsorships daily at 8am
 Schedule::command('sponsorships:check-expiring')->dailyAt('08:00');
