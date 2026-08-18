@@ -6,7 +6,7 @@
     <style>
         @page {
             size: 297mm 210mm;
-            margin: 10mm;
+            margin: 0;
         }
 
         * {
@@ -18,21 +18,25 @@
         body {
             font-family: 'DejaVu Sans', sans-serif;
             color: #333333;
+            width: 297mm;
+            height: 210mm;
         }
 
         .certificate {
+            width: 297mm;
+            height: 210mm;
             border: 3px solid #2c5f2d;
-            padding: 6mm 15mm 5mm;
+            padding: 12mm 20mm 10mm;
             text-align: center;
             position: relative;
         }
 
         .inner-border {
             position: absolute;
-            top: 3mm;
-            left: 3mm;
-            right: 3mm;
-            bottom: 3mm;
+            top: 4mm;
+            left: 4mm;
+            right: 4mm;
+            bottom: 4mm;
             border: 1px solid #4a7c4f;
         }
 
@@ -53,19 +57,20 @@
             font-size: 22pt;
             color: #2c5f2d;
             font-weight: bold;
-            margin-top: 2mm;
+            margin-top: 3mm;
         }
 
         .certificate-subtitle {
             font-size: 9pt;
             color: #777777;
+            margin-top: 1mm;
         }
 
         .decorative-line {
             width: 40mm;
             height: 1px;
             background-color: #2c5f2d;
-            margin: 2mm auto;
+            margin: 3mm auto;
         }
 
         .display-name {
@@ -77,7 +82,7 @@
         .certificate-text {
             font-size: 9pt;
             color: #444444;
-            margin-top: 1mm;
+            margin-top: 2mm;
         }
 
         .horse-name {
@@ -85,7 +90,7 @@
             font-weight: bold;
             color: #4a7c4f;
             font-style: italic;
-            margin-top: 1mm;
+            margin-top: 2mm;
         }
 
         .horse-photo {
@@ -93,17 +98,17 @@
             height: 18mm;
             border-radius: 50%;
             border: 2px solid #2c5f2d;
-            margin: 2mm auto;
+            margin: 3mm auto;
         }
 
         .certificate-date {
             font-size: 8pt;
             color: #666666;
-            margin-top: 1mm;
+            margin-top: 2mm;
         }
 
         .signature-section {
-            margin-top: 2mm;
+            margin-top: 3mm;
         }
 
         .hoof-img {
@@ -128,7 +133,7 @@
         .certificate-footer {
             font-size: 7pt;
             color: #bbbbbb;
-            margin-top: 2mm;
+            margin-top: 3mm;
         }
     </style>
 </head>

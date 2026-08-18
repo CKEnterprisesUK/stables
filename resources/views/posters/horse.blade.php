@@ -6,6 +6,7 @@
     <style>
         @page {
             margin: 0;
+            size: A4 portrait;
         }
 
         * {
@@ -24,98 +25,88 @@
 
         .poster {
             width: 100%;
-            height: 100%;
-            padding: 40px 50px;
+            min-height: 100%;
+            padding: 35px 45px 30px;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
         .border-outer {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 3px solid #2c5f2d;
-            border-radius: 8px;
-        }
-
-        .border-inner {
-            position: absolute;
-            top: 18px;
-            left: 18px;
-            right: 18px;
-            bottom: 18px;
-            border: 1px solid #4a7c4f;
-            border-radius: 6px;
         }
 
         .header {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .stable-logo {
-            max-width: 100px;
-            max-height: 80px;
-            margin-bottom: 8px;
+            max-width: 80px;
+            max-height: 60px;
+            margin-bottom: 4px;
         }
 
         .stable-name {
-            font-size: 12px;
+            font-size: 10px;
             color: #555555;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
 
         .title {
-            font-size: 32px;
+            font-size: 30px;
             color: #2c5f2d;
-            margin: 15px 0 5px;
+            margin: 10px 0 4px;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 12px;
             color: #666666;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .decorative-line {
-            width: 200px;
+            width: 180px;
             height: 2px;
-            background: linear-gradient(to right, transparent, #2c5f2d, transparent);
-            margin: 15px auto;
+            background-color: #2c5f2d;
+            margin: 10px auto;
         }
 
         .horse-photo {
-            width: 280px;
-            height: 280px;
-            border-radius: 12px;
-            border: 4px solid #2c5f2d;
-            margin: 15px auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 10px;
+            border: 3px solid #2c5f2d;
+            margin: 10px auto;
             object-fit: cover;
             display: block;
         }
 
         .horse-name {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #2c5f2d;
-            margin: 12px 0 8px;
+            margin: 8px 0 6px;
         }
 
         .facts-section {
-            margin: 10px auto;
-            max-width: 400px;
+            margin: 8px auto;
+            max-width: 380px;
             text-align: left;
         }
 
         .fact-item {
-            font-size: 11px;
+            font-size: 10px;
             color: #444444;
-            padding: 3px 0;
-            padding-left: 15px;
+            padding: 2px 0;
+            padding-left: 14px;
             position: relative;
         }
 
@@ -128,50 +119,46 @@
         }
 
         .sponsor-section {
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 12px;
+            padding: 15px;
             background: #f8faf8;
-            border-radius: 8px;
             border: 1px solid #e0e8e0;
         }
 
         .sponsor-cta {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #2c5f2d;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
         }
 
         .sponsor-text {
-            font-size: 11px;
+            font-size: 10px;
             color: #555555;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .qr-code {
-            margin: 10px auto;
-            width: 150px;
-            height: 150px;
+            margin: 6px auto;
+            width: 130px;
+            height: 130px;
         }
 
         .qr-code img {
-            width: 150px;
-            height: 150px;
+            width: 130px;
+            height: 130px;
         }
 
         .sponsor-url {
-            font-size: 10px;
+            font-size: 9px;
             color: #666666;
-            margin-top: 10px;
+            margin-top: 6px;
             word-break: break-all;
         }
 
         .footer {
-            position: absolute;
-            bottom: 28px;
-            left: 50px;
-            right: 50px;
-            font-size: 9px;
+            margin-top: 12px;
+            font-size: 8px;
             color: #aaaaaa;
             text-align: center;
         }
@@ -180,7 +167,6 @@
 <body>
     <div class="poster">
         <div class="border-outer"></div>
-        <div class="border-inner"></div>
 
         <div class="header">
             @if($stableLogo)

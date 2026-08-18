@@ -6,6 +6,7 @@
     <style>
         @page {
             margin: 0;
+            size: A4 portrait;
         }
 
         * {
@@ -24,77 +25,62 @@
 
         .poster {
             width: 100%;
-            height: 100%;
-            padding: 50px;
+            min-height: 100%;
+            padding: 40px 45px 35px;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
         .border-outer {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 3px solid #2c5f2d;
-            border-radius: 8px;
-        }
-
-        .border-inner {
-            position: absolute;
-            top: 18px;
-            left: 18px;
-            right: 18px;
-            bottom: 18px;
-            border: 1px solid #4a7c4f;
-            border-radius: 6px;
         }
 
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .stable-logo {
-            max-width: 120px;
-            max-height: 100px;
-            margin-bottom: 10px;
+            max-width: 100px;
+            max-height: 70px;
+            margin-bottom: 6px;
         }
 
         .stable-name {
-            font-size: 14px;
+            font-size: 11px;
             color: #555555;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
 
         .title {
-            font-size: 38px;
+            font-size: 36px;
             color: #2c5f2d;
-            margin: 30px 0 10px;
+            margin: 20px 0 8px;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .subtitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #555555;
-            margin-bottom: 25px;
-            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
         .decorative-line {
-            width: 250px;
+            width: 200px;
             height: 2px;
-            background: linear-gradient(to right, transparent, #2c5f2d, transparent);
-            margin: 20px auto;
-        }
-
-        .horseshoe-icon {
-            margin: 20px auto;
+            background-color: #2c5f2d;
+            margin: 15px auto;
         }
 
         .info-section {
-            margin: 25px auto;
+            margin: 20px auto;
             max-width: 420px;
             text-align: center;
         }
@@ -102,21 +88,21 @@
         .info-text {
             font-size: 13px;
             color: #444444;
-            line-height: 1.7;
-            margin-bottom: 15px;
+            line-height: 1.6;
+            margin-bottom: 12px;
         }
 
         .benefits-list {
             text-align: left;
-            margin: 20px auto;
-            max-width: 350px;
+            margin: 15px auto;
+            max-width: 340px;
         }
 
         .benefit-item {
             font-size: 12px;
             color: #444444;
-            padding: 5px 0;
-            padding-left: 20px;
+            padding: 4px 0;
+            padding-left: 22px;
             position: relative;
         }
 
@@ -129,49 +115,45 @@
         }
 
         .sponsor-section {
-            margin-top: 30px;
-            padding: 25px;
+            margin-top: 20px;
+            padding: 20px;
             background: #f8faf8;
-            border-radius: 8px;
             border: 1px solid #e0e8e0;
         }
 
         .sponsor-cta {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #2c5f2d;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .sponsor-text {
             font-size: 11px;
             color: #555555;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .qr-code {
-            margin: 12px auto;
-            width: 180px;
-            height: 180px;
+            margin: 8px auto;
+            width: 160px;
+            height: 160px;
         }
 
         .qr-code img {
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
         }
 
         .sponsor-url {
             font-size: 10px;
             color: #666666;
-            margin-top: 10px;
+            margin-top: 8px;
             word-break: break-all;
         }
 
         .footer {
-            position: absolute;
-            bottom: 28px;
-            left: 50px;
-            right: 50px;
+            margin-top: 20px;
             font-size: 9px;
             color: #aaaaaa;
             text-align: center;
@@ -181,7 +163,6 @@
 <body>
     <div class="poster">
         <div class="border-outer"></div>
-        <div class="border-inner"></div>
 
         <div class="header">
             @if($stableLogo)
@@ -194,17 +175,6 @@
         <div class="subtitle">Make a difference in the life of one of our horses</div>
 
         <div class="decorative-line"></div>
-
-        <div class="horseshoe-icon">
-            <svg width="60" height="60" viewBox="0 0 100 100" style="margin: 0 auto; display: block;">
-                <path d="M20 90 C20 40, 20 20, 35 15 C40 12, 45 15, 45 25 L45 60 M55 60 L55 25 C55 15, 60 12, 65 15 C80 20, 80 40, 80 90"
-                      fill="none" stroke="#2c5f2d" stroke-width="8" stroke-linecap="round"/>
-                <circle cx="30" cy="55" r="5" fill="#2c5f2d"/>
-                <circle cx="70" cy="55" r="5" fill="#2c5f2d"/>
-                <circle cx="25" cy="38" r="5" fill="#2c5f2d"/>
-                <circle cx="75" cy="38" r="5" fill="#2c5f2d"/>
-            </svg>
-        </div>
 
         <div class="info-section">
             <p class="info-text">
