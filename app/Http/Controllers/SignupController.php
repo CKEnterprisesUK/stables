@@ -8,6 +8,7 @@ use App\Http\Requests\SignupRequest;
 use App\Models\Horse;
 use App\Models\Sponsorship;
 use App\Models\User;
+use App\Notifications\WelcomeSponsorNotification;
 use App\Services\StripeServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,7 @@ class SignupController extends Controller
             );
 
             // 3. Create local Sponsorship record
-            Sponsorship::create([
+            $sponsorship = Sponsorship::create([
                 'user_id' => $user->id,
                 'horse_id' => $horse->id,
                 'stripe_subscription_id' => $subscription->stripe_id,
@@ -71,10 +72,13 @@ class SignupController extends Controller
                 'status' => SponsorshipStatus::Active,
             ]);
 
-            // 4. Authenticate user
+            // 4. Send welcome email with certificate
+            $user->notify(new WelcomeSponsorNotification($sponsorship));
+
+            // 5. Authenticate user
             Auth::login($user);
 
-            // 5. Redirect to sponsor portal dashboard
+            // 6. Redirect to sponsor portal dashboard
             return redirect()->route('sponsor.dashboard')
                 ->with('status', 'Welcome! Your sponsorship has been set up successfully.');
         });
