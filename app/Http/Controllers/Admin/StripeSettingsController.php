@@ -53,6 +53,9 @@ class StripeSettingsController extends Controller
             // Full dashboard access, Stripe collects fees and handles losses (Standard equivalent)
             $account = $stripe->v2->core->accounts->create([
                 'dashboard' => 'full',
+                'identity' => [
+                    'country' => 'gb',
+                ],
                 'defaults' => [
                     'responsibilities' => [
                         'fees_collector' => 'stripe',
