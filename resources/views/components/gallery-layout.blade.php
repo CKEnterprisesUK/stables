@@ -12,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }} - @yield('title', 'Gallery')</title>
+        <title>{{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }} - @yield('title', 'Stables')</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,7 +26,7 @@
         <header class="bg-white shadow-sm border-b border-stable-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('gallery') }}" class="flex items-center">
+                    <a href="{{ route('stables') }}" class="flex items-center">
                         @if($activeBranding && $activeBranding->logo_path)
                             <img src="{{ asset('storage/' . $activeBranding->logo_path) }}" alt="{{ $activeBranding->name }}" class="h-10 w-auto max-w-[180px] object-contain">
                         @else

@@ -55,6 +55,7 @@ Route::middleware(['auth', 'role:sponsor'])->prefix('portal')->name('sponsor.')-
     Route::get('/sponsorships/{sponsorship}/certificate', [CertificateController::class, 'show'])->name('certificate');
     Route::get('/sponsorships/{sponsorship}/certificate/download', [CertificateController::class, 'download'])->name('certificate.download');
     Route::post('/sponsorships/{sponsorship}/cancel', [SponsorshipController::class, 'cancel'])->name('sponsorship.cancel');
+    Route::get('/sponsorships/{sponsorship}/cancel', [SponsorshipController::class, 'confirmCancel'])->name('sponsorship.cancel.confirm');
 });
 
 Route::get('/dashboard', function () {

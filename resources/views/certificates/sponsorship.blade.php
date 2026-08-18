@@ -6,6 +6,7 @@
     <style>
         @page {
             margin: 0;
+            size: A4 landscape;
         }
 
         * {
@@ -24,38 +25,38 @@
 
         .certificate {
             width: 100%;
-            height: 100%;
-            padding: 35px 50px 30px;
+            padding: 30px 45px 25px;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
         .border-outer {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
             border: 3px solid #2c5f2d;
         }
 
         .border-inner {
             position: absolute;
-            top: 22px;
-            left: 22px;
-            right: 22px;
-            bottom: 22px;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
             border: 1px solid #4a7c4f;
         }
 
         .certificate-header {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .stable-logo {
-            max-width: 80px;
-            max-height: 80px;
-            margin-bottom: 8px;
+            max-width: 140px;
+            max-height: 140px;
+            margin-bottom: 6px;
         }
 
         .stable-name {
@@ -66,90 +67,87 @@
         }
 
         .certificate-title {
-            font-size: 28px;
+            font-size: 26px;
             color: #2c5f2d;
-            margin: 12px 0 4px;
+            margin: 8px 0 3px;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .certificate-subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: #777777;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .decorative-line {
-            width: 160px;
+            width: 140px;
             height: 2px;
             background: linear-gradient(to right, transparent, #2c5f2d, transparent);
-            margin: 10px auto;
+            margin: 8px auto;
         }
 
         .certificate-body {
-            margin: 8px 0;
+            margin: 5px 0;
         }
 
         .display-name {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #2c5f2d;
-            margin: 10px 0;
+            margin: 6px 0;
         }
 
         .certificate-text {
-            font-size: 13px;
+            font-size: 12px;
             color: #444444;
         }
 
         .horse-section {
-            margin: 10px 0;
+            margin: 6px 0;
         }
 
         .horse-name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #4a7c4f;
             font-style: italic;
-            margin: 8px 0;
+            margin: 5px 0;
         }
 
         .horse-photo {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 3px solid #2c5f2d;
-            margin: 10px auto;
+            border: 2px solid #2c5f2d;
+            margin: 8px auto;
             object-fit: cover;
             display: block;
         }
 
         .certificate-date {
-            font-size: 11px;
+            font-size: 10px;
             color: #666666;
-            margin-top: 12px;
+            margin-top: 8px;
         }
 
         .signature-section {
-            margin-top: 15px;
-            padding-top: 10px;
+            margin-top: 10px;
         }
 
-        .horseshoe {
-            font-size: 36px;
-            color: #2c5f2d;
-            margin-bottom: 2px;
-            line-height: 1;
+        .hoof-print {
+            display: inline-block;
+            margin: 0 auto 3px;
         }
 
         .signature-name {
-            font-size: 13px;
+            font-size: 12px;
             font-style: italic;
             color: #4a7c4f;
         }
 
         .signature-label {
-            font-size: 9px;
+            font-size: 8px;
             color: #999999;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -158,10 +156,10 @@
 
         .certificate-footer {
             position: absolute;
-            bottom: 30px;
-            left: 50px;
-            right: 50px;
-            font-size: 9px;
+            bottom: 25px;
+            left: 45px;
+            right: 45px;
+            font-size: 8px;
             color: #bbbbbb;
         }
     </style>
@@ -206,15 +204,12 @@
         </div>
 
         <div class="signature-section">
-            <div class="horseshoe">&#x1F401;</div>
-            <svg width="40" height="40" viewBox="0 0 100 100" style="margin: 0 auto; display: block;">
-                <path d="M20 90 C20 40, 20 20, 35 15 C40 12, 45 15, 45 25 L45 60 M55 60 L55 25 C55 15, 60 12, 65 15 C80 20, 80 40, 80 90" 
-                      fill="none" stroke="#2c5f2d" stroke-width="8" stroke-linecap="round"/>
-                <circle cx="30" cy="55" r="5" fill="#2c5f2d"/>
-                <circle cx="70" cy="55" r="5" fill="#2c5f2d"/>
-                <circle cx="25" cy="38" r="5" fill="#2c5f2d"/>
-                <circle cx="75" cy="38" r="5" fill="#2c5f2d"/>
-            </svg>
+            <div class="hoof-print">
+                <svg width="36" height="44" viewBox="0 0 80 100">
+                    <path d="M25 2 C10 2, 2 15, 2 30 C2 45, 10 52, 20 52 C25 52, 30 48, 32 42 C34 36, 36 34, 40 34 C44 34, 46 36, 48 42 C50 48, 55 52, 60 52 C70 52, 78 45, 78 30 C78 15, 70 2, 55 2 C48 2, 44 6, 40 12 C36 6, 32 2, 25 2 Z" fill="#2c5f2d"/>
+                    <path d="M30 58 C25 58, 20 62, 20 70 C20 78, 25 85, 32 85 C38 85, 40 80, 40 75 C40 80, 42 85, 48 85 C55 85, 60 78, 60 70 C60 62, 55 58, 50 58 C46 58, 43 60, 40 64 C37 60, 34 58, 30 58 Z" fill="#2c5f2d"/>
+                </svg>
+            </div>
             <div class="signature-name">{{ $horseName }}</div>
             <div class="signature-label">With love and gratitude</div>
         </div>

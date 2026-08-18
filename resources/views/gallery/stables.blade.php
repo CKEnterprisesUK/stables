@@ -20,7 +20,17 @@
                     $isSponsored = in_array($horse->id, $sponsoredHorseIds);
                 @endphp
 
-                <div class="bg-white rounded-xl border border-stable-200 shadow-sm overflow-hidden">
+                <div class="rounded-xl shadow-sm overflow-hidden {{ $isSponsored ? 'ring-2 ring-brand-500 border border-brand-300 bg-white' : 'bg-white border border-stable-200' }}">
+                    {{-- "My Horse" Banner for sponsored horses --}}
+                    @if($isSponsored)
+                        <div class="bg-brand-500 px-4 py-1.5 flex items-center gap-2">
+                            <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-sm font-semibold text-white">My Horse</span>
+                        </div>
+                    @endif
+
                     {{-- Horse Header --}}
                     <div class="p-6 flex flex-col sm:flex-row gap-6 items-start">
                         <a href="{{ route('gallery.show', $horse) }}" class="flex-shrink-0">
@@ -28,7 +38,7 @@
                                 <img
                                     src="{{ asset('storage/' . $horse->photos->first()->path) }}"
                                     alt="{{ $horse->name }}"
-                                    class="w-28 h-28 object-cover rounded-lg"
+                                    class="w-28 h-28 object-cover rounded-lg {{ $isSponsored ? 'ring-2 ring-brand-300' : '' }}"
                                 >
                             @else
                                 <div class="w-28 h-28 bg-stable-100 rounded-lg flex items-center justify-center">

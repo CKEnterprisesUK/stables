@@ -24,7 +24,7 @@ class SignupRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'child_name' => ['nullable', 'string', 'max:255'],
             'payment_method' => ['required', 'string'],
         ];

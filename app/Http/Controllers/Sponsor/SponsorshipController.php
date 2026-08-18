@@ -7,9 +7,24 @@ use App\Models\Sponsorship;
 use App\Services\StripeServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class SponsorshipController extends Controller
 {
+    /**
+     * Show the cancellation confirmation page.
+     *
+     * Gives the sponsor a chance to reconsider before cancelling.
+     */
+    public function confirmCancel(Sponsorship $sponsorship): View
+    {
+        Gate::authorize('cancel', $sponsorship);
+
+        $sponsorship->load('horse.photos');
+
+        return view('sponsor.cancel-confirm', compact('sponsorship'));
+    }
+
     /**
      * Cancel an active sponsorship.
      *

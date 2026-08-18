@@ -27,20 +27,28 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
-                          required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        <!-- Password (Optional - can use magic link to sign in) -->
+        <div class="mt-4" x-data="{ showPassword: false }">
+            <div class="flex items-center gap-2">
+                <input id="set_password" type="checkbox" x-model="showPassword" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                <label for="set_password" class="text-sm text-gray-600">{{ __('Set a password (optional)') }}</label>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">You can always sign in with a magic link sent to your email. Set a password if you prefer.</p>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                          name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div x-show="showPassword" x-transition class="mt-3 space-y-4">
+                <div>
+                    <x-input-label for="password" :value="__('Password')" />
+                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
+                                  autocomplete="new-password" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                                  name="password_confirmation" autocomplete="new-password" />
+                </div>
+            </div>
         </div>
 
         <!-- Monthly Amount (fixed by admin) -->
