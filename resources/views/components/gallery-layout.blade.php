@@ -1,0 +1,69 @@
+@props(['branding' => null])
+
+@php
+    // Use explicitly passed branding or fall back to the shared $stableBranding from view composer
+    $activeBranding = $branding ?? ($stableBranding ?? null);
+@endphp
+
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }} - @yield('title', 'Gallery')</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased bg-gray-50">
+        <!-- Header with stable branding -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <a href="{{ route('gallery') }}" class="flex items-center gap-3">
+                        @if($activeBranding && $activeBranding->logo_path)
+                            <img src="{{ asset('storage/' . $activeBranding->logo_path) }}" alt="{{ $activeBranding->name }}" class="h-10 w-auto">
+                        @endif
+                        <h1 class="text-xl font-bold text-gray-900">
+                            {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}
+                        </h1>
+                    </a>
+                    <nav class="flex items-center gap-4">
+                        @auth
+                            @if(auth()->user()->role === \App\Enums\UserRole::Admin)
+                                <a href="{{ route('admin.horses.index') }}" class="text-sm text-gray-600 hover:text-gray-900">Admin</a>
+                            @endif
+                            @if(auth()->user()->role === \App\Enums\UserRole::Sponsor)
+                                <a href="{{ route('sponsor.dashboard') }}" class="text-sm text-gray-600 hover:text-gray-900">My Sponsorships</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-sm text-gray-600 hover:text-gray-900">Logout</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
+                        @endauth
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {{ $slot }}
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm text-gray-500">
+                &copy; {{ date('Y') }} {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}. All rights reserved.
+            </div>
+        </footer>
+    </body>
+</html>
