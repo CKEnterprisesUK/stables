@@ -17,6 +17,7 @@ class CertificateService
     {
         $branding = StableBranding::first();
         $displayName = $this->getDisplayName($sponsorship);
+        $horsePhoto = $sponsorship->horse->photos()->first();
 
         $pdf = Pdf::loadView('certificates.sponsorship', [
             'displayName' => $displayName,
@@ -24,6 +25,7 @@ class CertificateService
             'startDate' => $sponsorship->created_at->format('F j, Y'),
             'stableName' => $branding?->name ?? 'Our Stable',
             'stableLogo' => $branding?->logo_path,
+            'horsePhoto' => $horsePhoto?->path,
         ]);
 
         return $pdf->output();

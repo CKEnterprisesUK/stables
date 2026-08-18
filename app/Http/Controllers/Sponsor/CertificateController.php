@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Sponsor;
 use App\Http\Controllers\Controller;
 use App\Models\Sponsorship;
 use App\Services\CertificateService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Response;
 
 class CertificateController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         protected CertificateService $certificateService
     ) {}

@@ -99,6 +99,15 @@
             color: #999999;
         }
 
+        .horse-photo {
+            max-width: 180px;
+            max-height: 180px;
+            border-radius: 50%;
+            border: 3px solid #2c5f2d;
+            margin: 20px auto;
+            object-fit: cover;
+        }
+
         .decorative-line {
             width: 200px;
             height: 2px;
@@ -129,6 +138,10 @@
             </p>
 
             <div class="horse-name">{{ $horseName }}</div>
+
+            @if($horsePhoto)
+                <img src="{{ public_path('storage/' . $horsePhoto) }}" alt="{{ $horseName }}" class="horse-photo">
+            @endif
 
             <div class="decorative-line"></div>
 

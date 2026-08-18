@@ -90,7 +90,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stripe = Stripe('{{ $stripeKey }}');
+            const stripe = Stripe('{{ $stripeKey }}', { locale: 'en-GB' });
             const elements = stripe.elements();
 
             // Create and mount the Card Element
