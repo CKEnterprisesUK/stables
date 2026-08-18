@@ -111,6 +111,11 @@ class MagicLinkController extends Controller
         $request = request();
         $request->session()->regenerate();
 
-        return redirect()->route('sponsor.dashboard');
+        // Redirect based on user role
+        if ($magicLink->user->role === \App\Enums\UserRole::Sponsor) {
+            return redirect()->route('sponsor.dashboard');
+        }
+
+        return redirect()->route('admin.horses.index');
     }
 }
