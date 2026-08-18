@@ -6,7 +6,8 @@
     <style>
         @page {
             size: 297mm 210mm;
-            margin: 0;
+            margin: 8mm;
+            border: 3px solid #2c5f2d;
         }
 
         * {
@@ -18,31 +19,13 @@
         body {
             font-family: 'DejaVu Sans', sans-serif;
             color: #333333;
-            width: 297mm;
-            height: 210mm;
-        }
-
-        .certificate {
-            width: 297mm;
-            height: 210mm;
-            border: 3px solid #2c5f2d;
-            padding: 12mm 20mm 10mm;
             text-align: center;
-            position: relative;
-        }
-
-        .inner-border {
-            position: absolute;
-            top: 4mm;
-            left: 4mm;
-            right: 4mm;
-            bottom: 4mm;
-            border: 1px solid #4a7c4f;
         }
 
         .stable-logo {
             max-width: 22mm;
             max-height: 22mm;
+            margin-top: 2mm;
         }
 
         .stable-name {
@@ -57,7 +40,7 @@
             font-size: 22pt;
             color: #2c5f2d;
             font-weight: bold;
-            margin-top: 3mm;
+            margin-top: 4mm;
         }
 
         .certificate-subtitle {
@@ -94,8 +77,8 @@
         }
 
         .horse-photo {
-            width: 18mm;
-            height: 18mm;
+            width: 20mm;
+            height: 20mm;
             border-radius: 50%;
             border: 2px solid #2c5f2d;
             margin: 3mm auto;
@@ -108,12 +91,12 @@
         }
 
         .signature-section {
-            margin-top: 3mm;
+            margin-top: 4mm;
         }
 
         .hoof-img {
-            width: 8mm;
-            height: 8mm;
+            width: 9mm;
+            height: 9mm;
         }
 
         .signature-name {
@@ -133,45 +116,41 @@
         .certificate-footer {
             font-size: 7pt;
             color: #bbbbbb;
-            margin-top: 3mm;
+            margin-top: 4mm;
         }
     </style>
 </head>
 <body>
-    <div class="certificate">
-        <div class="inner-border"></div>
+    @if($stableLogo)
+        <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo"><br>
+    @endif
+    <div class="stable-name">{{ $stableName }}</div>
 
-        @if($stableLogo)
-            <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo"><br>
-        @endif
-        <span class="stable-name">{{ $stableName }}</span>
+    <h1 class="certificate-title">Certificate of Sponsorship</h1>
+    <div class="certificate-subtitle">This certificate is proudly presented to</div>
 
-        <h1 class="certificate-title">Certificate of Sponsorship</h1>
-        <div class="certificate-subtitle">This certificate is proudly presented to</div>
+    <div class="decorative-line"></div>
 
-        <div class="decorative-line"></div>
+    <div class="display-name">{{ $displayName }}</div>
 
-        <div class="display-name">{{ $displayName }}</div>
+    <div class="certificate-text">In recognition of their generous sponsorship of</div>
 
-        <div class="certificate-text">In recognition of their generous sponsorship of</div>
+    <div class="horse-name">{{ $horseName }}</div>
 
-        <div class="horse-name">{{ $horseName }}</div>
+    @if($horsePhoto)
+        <img src="{{ public_path('storage/' . $horsePhoto) }}" alt="{{ $horseName }}" class="horse-photo"><br>
+    @endif
 
-        @if($horsePhoto)
-            <img src="{{ public_path('storage/' . $horsePhoto) }}" alt="{{ $horseName }}" class="horse-photo"><br>
-        @endif
+    <div class="decorative-line"></div>
 
-        <div class="decorative-line"></div>
+    <div class="certificate-date">Sponsorship commenced on {{ $startDate }}</div>
 
-        <div class="certificate-date">Sponsorship commenced on {{ $startDate }}</div>
-
-        <div class="signature-section">
-            <img src="{{ public_path('images/hoof-print.png') }}" alt="Hoof print" class="hoof-img"><br>
-            <span class="signature-name">{{ $horseName }}</span><br>
-            <span class="signature-label">With love and gratitude</span>
-        </div>
-
-        <div class="certificate-footer">Issued by {{ $stableName }}</div>
+    <div class="signature-section">
+        <img src="{{ public_path('images/hoof-print.png') }}" alt="Hoof print" class="hoof-img"><br>
+        <span class="signature-name">{{ $horseName }}</span><br>
+        <span class="signature-label">With love and gratitude</span>
     </div>
+
+    <div class="certificate-footer">Issued by {{ $stableName }}</div>
 </body>
 </html>
