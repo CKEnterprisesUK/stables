@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\DiagnosticsController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
+use App\Http\Controllers\Admin\HelpController;
 use App\Http\Controllers\Admin\HorseController as AdminHorseController;
 use App\Http\Controllers\Admin\SetupController;
 use App\Http\Controllers\Admin\SmtpSettingsController;
@@ -94,6 +95,9 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin', 's
     // Sponsorship posters
     Route::get('/horses/{horse}/poster', [AdminPosterController::class, 'horse'])->name('horses.poster');
     Route::get('/poster', [AdminPosterController::class, 'generic'])->name('poster.generic');
+
+    // Help & documentation
+    Route::get('/help', [HelpController::class, 'index'])->name('help');
 });
 
 // Admin Panel — sponsorship & finance management (super_admin + sponsorship_admin)
