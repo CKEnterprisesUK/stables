@@ -28,7 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        // Redirect sponsors to their portal, admins to the admin panel
+        if ($user->role === \App\Enums\UserRole::Sponsor) {
+            return redirect()->intended(route('sponsor.dashboard', absolute: false));
+        }
+
+        return redirect()->intended(route('admin.horses.index', absolute: false));
     }
 
     /**
