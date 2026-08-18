@@ -48,4 +48,20 @@ class User extends Authenticatable
     {
         return $this->sponsorships()->where('status', 'active');
     }
+
+    /**
+     * Check if the user has any admin role.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role->isAdmin();
+    }
+
+    /**
+     * Check if the user is a super admin.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === UserRole::SuperAdmin;
+    }
 }

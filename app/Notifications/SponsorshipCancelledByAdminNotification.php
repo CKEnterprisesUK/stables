@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Sponsorship;
+use App\Models\StableBranding;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -35,13 +36,17 @@ class SponsorshipCancelledByAdminNotification extends Notification implements Sh
     public function toMail(object $notifiable): MailMessage
     {
         $horseName = $this->sponsorship->horse->name ?? 'your horse';
+        $branding = StableBranding::first();
+        $centreName = $branding->name ?? 'Margaret Haes Riding Centre';
 
         return (new MailMessage)
             ->subject('Your Sponsorship Has Been Cancelled')
-            ->greeting('Hello ' . $notifiable->name . ',')
-            ->line("We're writing to let you know that your sponsorship of {$horseName} has been cancelled by the stable administrator.")
-            ->line('If you believe this was done in error or have any questions, please contact us.')
-            ->salutation('Thank you for your support!');
+            ->from(config('mail.from.address'), $centreName)
+            ->view('emails.sponsorship-cancelled', [
+                'centreName' => $centreName,
+                'sponsorName' => $notifiable->name,
+                'horseName' => $horseName,
+            ]);
     }
 
     /**

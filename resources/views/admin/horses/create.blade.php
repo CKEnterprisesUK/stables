@@ -27,9 +27,10 @@
 
             <div>
                 <label for="facts" class="block text-sm font-medium text-stable-700">Facts</label>
-                <textarea name="facts" id="facts" rows="4"
+                <textarea name="facts" id="facts" rows="6"
                           class="mt-1 block w-full rounded-lg border-stable-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
-                          placeholder="Breed, age, personality, favourite treats...">{{ old('facts') }}</textarea>
+                          placeholder="Enter one fact per line, e.g.&#10;Breed: Welsh Cob&#10;Age: 12 years&#10;Favourite treat: Polo mints&#10;Personality: Gentle and loves cuddles">{{ old('facts') }}</textarea>
+                <p class="mt-1 text-xs text-stable-500">One fact per line. Each line becomes a bullet point on the horse's profile.</p>
                 @error('facts')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

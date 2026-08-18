@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\HorseUpdate;
+use App\Models\StableBranding;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -34,16 +35,36 @@ class HorseUpdateNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $horseName = $this->update->horse->name ?? 'your horse';
-        $updateTitle = $this->update->title;
+        $horse = $this->update->horse;
+        $horseName = $horse->name ?? 'Your Horse';
+        $branding = StableBranding::first();
+        $centreName = $branding->name ?? 'Margaret Haes Riding Centre';
+
+        // Get the first horse photo for the avatar, if available
+        $horsePhoto = null;
+        $firstPhoto = $horse->photos()->first();
+        if ($firstPhoto) {
+            $horsePhoto = asset('storage/' . $firstPhoto->path);
+        }
+
+        // Get update photos
+        $updatePhotos = $this->update->photos->map(function ($photo) {
+            return asset('storage/' . $photo->path);
+        })->toArray();
 
         return (new MailMessage)
-            ->subject("New Update: {$horseName}")
-            ->greeting('Hello ' . $notifiable->name . ',')
-            ->line("There's a new update for {$horseName}: \"{$updateTitle}\".")
-            ->line('Log in to your sponsor portal to read the full update and see any new photos.')
-            ->action('View Update', route('sponsor.dashboard'))
-            ->salutation('Thank you for your support!');
+            ->subject("Update from {$horseName}")
+            ->from(config('mail.from.address'), $horseName . ' via ' . $centreName)
+            ->view('emails.horse-update', [
+                'horseName' => $horseName,
+                'centreName' => $centreName,
+                'horsePhoto' => $horsePhoto,
+                'sponsorName' => $notifiable->name,
+                'updateTitle' => $this->update->title,
+                'updateBody' => $this->update->body,
+                'updatePhotos' => $updatePhotos,
+                'portalUrl' => route('sponsor.dashboard'),
+            ]);
     }
 
     /**

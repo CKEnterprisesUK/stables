@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Sponsorship;
+use App\Models\StableBranding;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -35,14 +36,18 @@ class PaymentFailedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         $horseName = $this->sponsorship->horse->name ?? 'your horse';
+        $branding = StableBranding::first();
+        $centreName = $branding->name ?? 'Margaret Haes Riding Centre';
 
         return (new MailMessage)
             ->subject('Payment Failed for Your Sponsorship')
-            ->greeting('Hello ' . $notifiable->name . ',')
-            ->line("We were unable to process your monthly payment for your sponsorship of {$horseName}.")
-            ->line('Please update your payment method to ensure your sponsorship remains active.')
-            ->line('If you need assistance, please don\'t hesitate to contact us.')
-            ->salutation('Thank you for your support!');
+            ->from(config('mail.from.address'), $centreName)
+            ->view('emails.payment-failed', [
+                'centreName' => $centreName,
+                'sponsorName' => $notifiable->name,
+                'horseName' => $horseName,
+                'portalUrl' => route('sponsor.dashboard'),
+            ]);
     }
 
     /**

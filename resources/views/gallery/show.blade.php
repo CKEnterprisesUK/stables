@@ -46,9 +46,19 @@
             <h2 class="text-3xl font-bold text-stable-900">{{ $horse->name }}</h2>
 
             @if($horse->facts)
-                <div class="mt-4 prose prose-sm max-w-none text-stable-700">
-                    <p class="whitespace-pre-line">{{ $horse->facts }}</p>
-                </div>
+                @php
+                    $factLines = array_filter(array_map('trim', explode("\n", $horse->facts)));
+                @endphp
+                <ul class="mt-4 space-y-2">
+                    @foreach ($factLines as $fact)
+                        <li class="flex items-start gap-2 text-stable-700">
+                            <svg class="h-5 w-5 mt-0.5 shrink-0 text-brand-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ $fact }}
+                        </li>
+                    @endforeach
+                </ul>
             @endif
 
             <!-- Sponsorship CTA -->

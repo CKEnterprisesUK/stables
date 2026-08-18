@@ -48,12 +48,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Admin Panel (auth + role:admin)
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+// Admin Panel — all admin roles can access horses and post updates
+Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Horse management & updates — accessible by all admin roles
     Route::resource('horses', AdminHorseController::class);
     Route::resource('horses.updates', AdminUpdateController::class)->only(['create', 'store']);
+    Route::post('/horses/{horse}/updates/{update}/notify', [AdminUpdateController::class, 'notify'])->name('horses.updates.notify');
+});
+
+// Admin Panel — sponsorship & finance management (super_admin + sponsorship_admin)
+Route::middleware(['auth', 'role:super_admin,sponsorship_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/sponsors', [AdminSponsorController::class, 'index'])->name('sponsors.index');
     Route::post('/sponsorships/{sponsorship}/cancel', [AdminSponsorController::class, 'cancel'])->name('sponsorship.cancel');
+});
+
+// Admin Panel — settings & config (super_admin only)
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/branding', [BrandingController::class, 'edit'])->name('branding.edit');
     Route::put('/branding', [BrandingController::class, 'update'])->name('branding.update');
     Route::get('/settings/smtp', [SmtpSettingsController::class, 'edit'])->name('settings.smtp');
@@ -65,6 +75,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/settings/stripe/disconnect', [StripeSettingsController::class, 'disconnect'])->name('settings.stripe.disconnect');
     Route::get('/settings/stripe/dashboard', [StripeSettingsController::class, 'dashboard'])->name('settings.stripe.dashboard');
     Route::post('/settings/stripe/create-product', [StripeSettingsController::class, 'createProduct'])->name('settings.stripe.create-product');
+
+    // Admin user management (super_admin only)
+    Route::get('/admins', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admins.index');
+    Route::get('/admins/create', [\App\Http\Controllers\Admin\AdminController::class, 'create'])->name('admins.create');
+    Route::post('/admins', [\App\Http\Controllers\Admin\AdminController::class, 'store'])->name('admins.store');
+    Route::get('/admins/{user}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('admins.edit');
+    Route::put('/admins/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'update'])->name('admins.update');
+    Route::delete('/admins/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'destroy'])->name('admins.destroy');
 });
 
 // Stripe Webhook (excluded from CSRF via bootstrap/app.php)
