@@ -37,10 +37,9 @@
                     </a>
                     <nav class="flex items-center gap-4">
                         @auth
-                            @if(auth()->user()->role === \App\Enums\UserRole::Admin)
+                            @if(auth()->user()->role->isAdmin())
                                 <a href="{{ route('admin.horses.index') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Admin</a>
-                            @endif
-                            @if(auth()->user()->role === \App\Enums\UserRole::Sponsor)
+                            @elseif(auth()->user()->role === \App\Enums\UserRole::Sponsor)
                                 <a href="{{ route('sponsor.dashboard') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">My Sponsorships</a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}" class="inline">
