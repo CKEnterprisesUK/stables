@@ -27,6 +27,20 @@ class SponsorController extends Controller
     }
 
     /**
+     * Display a sponsor's detail page with sponsorships and invoice history.
+     */
+    public function show(User $user): View
+    {
+        abort_unless($user->role === UserRole::Sponsor, 404);
+
+        $user->load(['sponsorships.horse.photos', 'invoices' => function ($query) {
+            $query->with('sponsorship.horse')->orderByDesc('invoice_date');
+        }]);
+
+        return view('admin.sponsors.show', compact('user'));
+    }
+
+    /**
      * Cancel a sponsorship on behalf of the admin.
      *
      * Cancels the Stripe subscription, notifies the sponsor, and redirects back.

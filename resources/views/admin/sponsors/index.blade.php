@@ -23,8 +23,10 @@
                     @foreach ($sponsor->sponsorships as $sponsorship)
                         <tr class="hover:bg-stable-50 transition-colors">
                             <td class="px-6 py-4">
-                                <p class="text-sm font-medium text-stable-900">{{ $sponsor->name }}</p>
-                                <p class="text-xs text-stable-500">{{ $sponsor->email }}</p>
+                                <a href="{{ route('admin.sponsors.show', $sponsor) }}" class="hover:underline">
+                                    <p class="text-sm font-medium text-stable-900">{{ $sponsor->name }}</p>
+                                    <p class="text-xs text-stable-500">{{ $sponsor->email }}</p>
+                                </a>
                             </td>
                             <td class="px-6 py-4 text-sm text-stable-900">
                                 {{ $sponsorship->horse->name ?? 'N/A' }}
@@ -86,10 +88,10 @@
             @foreach ($sponsor->sponsorships as $sponsorship)
                 <div class="bg-white border border-stable-200 rounded-xl p-4 shadow-sm">
                     <div class="flex items-start justify-between gap-3">
-                        <div>
+                        <a href="{{ route('admin.sponsors.show', $sponsor) }}" class="hover:underline">
                             <p class="text-sm font-semibold text-stable-900">{{ $sponsor->name }}</p>
                             <p class="text-xs text-stable-500">{{ $sponsor->email }}</p>
-                        </div>
+                        </a>
                         @if ($sponsorship->status->value === 'active')
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-brand-50 text-brand-700 ring-1 ring-brand-200">
                                 <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandingController;
+use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\HorseController as AdminHorseController;
 use App\Http\Controllers\Admin\SmtpSettingsController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
@@ -11,9 +12,11 @@ use App\Http\Controllers\Auth\MagicLinkController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\Sponsor\AddSponsorshipController;
 use App\Http\Controllers\Sponsor\BillingController;
 use App\Http\Controllers\Sponsor\CertificateController;
 use App\Http\Controllers\Sponsor\DashboardController;
+use App\Http\Controllers\Sponsor\FinanceController;
 use App\Http\Controllers\Sponsor\HorseUpdatesController;
 use App\Http\Controllers\Sponsor\SponsorshipController;
 use App\Http\Controllers\WebhookController;
@@ -44,7 +47,10 @@ Route::get('/magic-link/{token}', [MagicLinkController::class, 'authenticate'])-
 Route::middleware(['auth', 'role:sponsor'])->prefix('portal')->name('sponsor.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/billing', [BillingController::class, 'redirectToStripe'])->name('billing');
+    Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
     Route::get('/horses/{horse}/updates', [HorseUpdatesController::class, 'index'])->name('horse.updates');
+    Route::get('/sponsorships/add', [AddSponsorshipController::class, 'create'])->name('sponsorship.create');
+    Route::post('/sponsorships/{horse}', [AddSponsorshipController::class, 'store'])->name('sponsorship.store');
     Route::get('/sponsorships/{sponsorship}/certificate', [CertificateController::class, 'show'])->name('certificate');
     Route::get('/sponsorships/{sponsorship}/certificate/download', [CertificateController::class, 'download'])->name('certificate.download');
     Route::post('/sponsorships/{sponsorship}/cancel', [SponsorshipController::class, 'cancel'])->name('sponsorship.cancel');
@@ -71,11 +77,14 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin'])->
 // Admin Panel — sponsorship & finance management (super_admin + sponsorship_admin)
 Route::middleware(['auth', 'role:super_admin,sponsorship_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/sponsors', [AdminSponsorController::class, 'index'])->name('sponsors.index');
+    Route::get('/sponsors/{user}', [AdminSponsorController::class, 'show'])->name('sponsors.show');
     Route::post('/sponsorships/{sponsorship}/cancel', [AdminSponsorController::class, 'cancel'])->name('sponsorship.cancel');
 });
 
 // Admin Panel — settings & config (super_admin only)
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/settings/general', [GeneralSettingsController::class, 'edit'])->name('settings.general');
+    Route::put('/settings/general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
     Route::get('/branding', [BrandingController::class, 'edit'])->name('branding.edit');
     Route::put('/branding', [BrandingController::class, 'update'])->name('branding.update');
     Route::get('/sponsorship-info', [SponsorshipInfoController::class, 'edit'])->name('sponsorship-info.edit');
