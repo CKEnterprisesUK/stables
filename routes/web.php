@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\HorseController as AdminHorseController;
+use App\Http\Controllers\Admin\SetupController;
 use App\Http\Controllers\Admin\SmtpSettingsController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
 use App\Http\Controllers\Admin\SponsorshipInfoController;
@@ -83,6 +84,8 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin'])->prefix('admin
 
 // Admin Panel — settings & config (super_admin only)
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/setup', [SetupController::class, 'index'])->name('setup');
+
     Route::get('/settings/general', [GeneralSettingsController::class, 'edit'])->name('settings.general');
     Route::put('/settings/general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
     Route::get('/branding', [BrandingController::class, 'edit'])->name('branding.edit');

@@ -36,6 +36,17 @@
 
         <!-- Navigation Links -->
         <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+            @if(auth()->user()?->role === \App\Enums\UserRole::SuperAdmin)
+            <a href="{{ route('admin.setup') }}"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+                      {{ request()->routeIs('admin.setup') ? 'bg-brand-50 text-brand-700' : 'text-stable-600 hover:bg-stable-100 hover:text-stable-900' }}">
+                <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Setup Checklist
+            </a>
+            @endif
+
             <a href="{{ route('admin.horses.index') }}"
                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
                       {{ request()->routeIs('admin.horses.*') ? 'bg-brand-50 text-brand-700' : 'text-stable-600 hover:bg-stable-100 hover:text-stable-900' }}">
