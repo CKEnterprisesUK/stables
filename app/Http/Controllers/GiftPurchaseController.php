@@ -22,10 +22,12 @@ class GiftPurchaseController extends Controller
         $settings = StripeSetting::first();
         $monthlyAmount = $settings?->sponsorship_amount;
         $branding = \App\Models\StableBranding::first();
+        $horses = Horse::with('photos')->orderBy('name')->get();
 
         return view('gift.info', [
             'monthlyAmount' => $monthlyAmount ?? 0,
             'branding' => $branding,
+            'horses' => $horses,
         ]);
     }
 

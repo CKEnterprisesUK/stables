@@ -98,39 +98,47 @@
                 </ul>
             </div>
 
-            <!-- Pricing -->
-            <div class="mt-10">
-                <h3 class="text-lg font-semibold text-stable-900 text-center">Choose a Duration</h3>
-                <p class="mt-1 text-sm text-stable-600 text-center">One-time payment — no recurring charges</p>
-                <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
-                    <div class="border border-stable-200 rounded-xl p-5 text-center hover:border-brand-300 hover:shadow-sm transition-all">
-                        <p class="text-2xl font-bold text-stable-900">3</p>
-                        <p class="text-sm text-stable-500">months</p>
-                        <p class="mt-2 text-lg font-semibold text-brand-700">&pound;{{ number_format($monthlyAmount * 3, 2) }}</p>
-                    </div>
-                    <div class="border border-brand-300 rounded-xl p-5 text-center shadow-sm ring-2 ring-brand-100">
-                        <p class="text-2xl font-bold text-stable-900">6</p>
-                        <p class="text-sm text-stable-500">months</p>
-                        <p class="mt-2 text-lg font-semibold text-brand-700">&pound;{{ number_format($monthlyAmount * 6, 2) }}</p>
-                    </div>
-                    <div class="border border-stable-200 rounded-xl p-5 text-center hover:border-brand-300 hover:shadow-sm transition-all">
-                        <p class="text-2xl font-bold text-stable-900">12</p>
-                        <p class="text-sm text-stable-500">months</p>
-                        <p class="mt-2 text-lg font-semibold text-brand-700">&pound;{{ number_format($monthlyAmount * 12, 2) }}</p>
-                    </div>
-                </div>
+            <!-- Pricing note -->
+            <div class="mt-10 text-center">
+                <h3 class="text-lg font-semibold text-stable-900">Pricing</h3>
+                <p class="mt-2 text-sm text-stable-600 max-w-lg mx-auto">
+                    Gift sponsorships start at &pound;{{ number_format($monthlyAmount * 3, 2) }} for 3 months.
+                    Choose 3, 6, or 12 months when you select a horse below. It's a one-time payment — no recurring charges.
+                </p>
             </div>
 
-            <!-- CTA -->
-            <div class="mt-10 text-center">
-                <h3 class="text-lg font-semibold text-stable-900">Ready to Gift?</h3>
-                <p class="mt-1 text-sm text-stable-600">Choose a horse from our gallery to get started.</p>
-                <a
-                    href="{{ route('gallery') }}"
-                    class="mt-4 inline-flex items-center px-6 py-3 bg-brand-600 text-white font-medium text-sm rounded-lg hover:bg-brand-700 shadow-sm transition-colors"
-                >
-                    Browse Horses
-                </a>
+            <!-- Choose a Horse -->
+            <div class="mt-10">
+                <h3 class="text-lg font-semibold text-stable-900 text-center">Choose a Horse to Gift</h3>
+                <p class="mt-1 text-sm text-stable-600 text-center">Select a horse and you'll choose the duration on the next page.</p>
+
+                @if($horses->isEmpty())
+                    <div class="mt-6 text-center py-8">
+                        <p class="text-stable-500">No horses available yet. Check back soon!</p>
+                    </div>
+                @else
+                    <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        @foreach($horses as $horse)
+                            <a href="{{ route('gift.create', $horse) }}"
+                               class="group block rounded-xl border border-stable-200 overflow-hidden hover:border-brand-400 hover:shadow-md transition-all">
+                                @if($horse->photos->isNotEmpty())
+                                    <img src="{{ asset('storage/' . $horse->photos->first()->path) }}"
+                                         alt="{{ $horse->name }}"
+                                         class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-200">
+                                @else
+                                    <div class="w-full aspect-square bg-stable-100 flex items-center justify-center">
+                                        <svg class="h-10 w-10 text-stable-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H3.75A2.25 2.25 0 001.5 6.75v12A2.25 2.25 0 003.75 21z"/>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="p-3 text-center">
+                                    <p class="font-semibold text-stable-900 group-hover:text-brand-700 transition-colors">{{ $horse->name }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             <!-- Already have a code? -->
