@@ -64,7 +64,8 @@ class SponsorshipExpiringNotification extends Notification implements ShouldQueu
                 ->action('Continue Sponsoring', route('signup.create', $horse));
         }
 
-        return $message->line("Thank you for being part of the {$centreName} family!");
+        return $message->line("Thank you for being part of the {$centreName} family!")
+            ->salutation('Sponsorship portal kindly provided by [CK Enterprises UK](https://ckenterprises.co.uk)');
     }
 
     /**

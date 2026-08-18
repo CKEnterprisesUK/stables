@@ -40,7 +40,15 @@ class MagicLinkController extends Controller
 
         Mail::to($user)->send(new MagicLinkMail($magicLink));
 
-        return back()->with('status', 'Magic link sent! Check your email for the login link.');
+        return redirect()->route('magic-link.sent');
+    }
+
+    /**
+     * Display the "check your email" confirmation page.
+     */
+    public function sent(): View
+    {
+        return view('auth.magic-link-sent');
     }
 
     /**

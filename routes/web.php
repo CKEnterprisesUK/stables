@@ -57,6 +57,7 @@ Route::post('/redeem', [GiftRedemptionController::class, 'store'])->name('gift.r
 
 // Magic Link Authentication (no auth required)
 Route::post('/magic-link', [MagicLinkController::class, 'request'])->name('magic-link.request');
+Route::get('/magic-link/sent', [MagicLinkController::class, 'sent'])->name('magic-link.sent');
 Route::get('/magic-link/{token}', [MagicLinkController::class, 'authenticate'])->name('magic-link.authenticate');
 
 // Sponsor Portal (auth + role:sponsor)
