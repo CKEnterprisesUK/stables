@@ -66,6 +66,16 @@
                 Sponsors
             </a>
 
+            <a href="{{ route('admin.gift-cards.index') }}"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+                      {{ request()->routeIs('admin.gift-cards.*') ? 'bg-brand-50 text-brand-700' : 'text-stable-600 hover:bg-stable-100 hover:text-stable-900' }}"
+               @if(!in_array(auth()->user()?->role?->value, ['super_admin', 'sponsorship_admin'])) style="display:none" @endif>
+                <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+                Gift Cards
+            </a>
+
             @if(auth()->user()?->role === \App\Enums\UserRole::SuperAdmin)
             <div class="pt-4 pb-2 px-3">
                 <p class="text-xs font-semibold text-stable-400 uppercase tracking-wider">Settings</p>

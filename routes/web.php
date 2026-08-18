@@ -100,6 +100,11 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin', 'setup.complete
     Route::get('/sponsors', [AdminSponsorController::class, 'index'])->name('sponsors.index');
     Route::get('/sponsors/{user}', [AdminSponsorController::class, 'show'])->name('sponsors.show');
     Route::post('/sponsorships/{sponsorship}/cancel', [AdminSponsorController::class, 'cancel'])->name('sponsorship.cancel');
+
+    // Gift card management
+    Route::get('/gift-cards', [\App\Http\Controllers\Admin\GiftCardController::class, 'index'])->name('gift-cards.index');
+    Route::get('/gift-cards/{gift}', [\App\Http\Controllers\Admin\GiftCardController::class, 'show'])->name('gift-cards.show');
+    Route::post('/gift-cards/{gift}/resend', [\App\Http\Controllers\Admin\GiftCardController::class, 'resend'])->name('gift-cards.resend');
 });
 
 // Admin Panel — settings & config (super_admin only)
