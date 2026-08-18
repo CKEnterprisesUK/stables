@@ -4,15 +4,14 @@ namespace App\Services;
 
 use App\Models\Sponsorship;
 use App\Models\StableBranding;
-use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\LaravelPdf\Enums\Format;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CertificateService
 {
     /**
-     * Generate a PDF certificate for the given sponsorship and save to a temp file.
+     * Generate a PDF certificate for the given sponsorship.
      *
-     * @return string Path to the generated PDF
+     * @return string PDF content as raw string
      */
     public function generate(Sponsorship $sponsorship): string
     {
@@ -20,26 +19,16 @@ class CertificateService
         $displayName = $this->getDisplayName($sponsorship);
         $horsePhoto = $sponsorship->horse->photos()->first();
 
-        $tempPath = storage_path('app/temp/certificate-' . $sponsorship->id . '-' . time() . '.pdf');
-
-        if (!is_dir(dirname($tempPath))) {
-            mkdir(dirname($tempPath), 0755, true);
-        }
-
-        Pdf::view('certificates.sponsorship', [
+        $pdf = Pdf::loadView('certificates.sponsorship', [
             'displayName' => $displayName,
             'horseName' => $sponsorship->horse->name,
             'startDate' => $sponsorship->created_at->format('F j, Y'),
             'stableName' => $branding?->name ?? 'Our Stable',
             'stableLogo' => $branding?->logo_path,
             'horsePhoto' => $horsePhoto?->path,
-        ])
-            ->format(Format::A4)
-            ->landscape()
-            ->margins(0, 0, 0, 0)
-            ->save($tempPath);
+        ])->setPaper('a4', 'landscape');
 
-        return $tempPath;
+        return $pdf->output();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Horse;
 use App\Services\PosterService;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\View\View;
 
 class PosterController extends Controller
 {
@@ -14,27 +14,22 @@ class PosterController extends Controller
     ) {}
 
     /**
-     * Download a sponsorship poster for a specific horse.
+     * Display a printable sponsorship poster for a specific horse.
      */
-    public function horse(Horse $horse): BinaryFileResponse
+    public function horse(Horse $horse): View
     {
-        $path = $this->posterService->generateHorsePoster($horse);
-        $filename = 'sponsor-' . str($horse->name)->slug() . '-poster.pdf';
+        $data = $this->posterService->getHorsePosterData($horse);
 
-        return response()->download($path, $filename, [
-            'Content-Type' => 'application/pdf',
-        ])->deleteFileAfterSend(true);
+        return view('posters.horse', $data);
     }
 
     /**
-     * Download a generic sponsorship poster for the stables.
+     * Display a printable generic sponsorship poster.
      */
-    public function generic(): BinaryFileResponse
+    public function generic(): View
     {
-        $path = $this->posterService->generateGenericPoster();
+        $data = $this->posterService->getGenericPosterData();
 
-        return response()->download($path, 'sponsorship-poster.pdf', [
-            'Content-Type' => 'application/pdf',
-        ])->deleteFileAfterSend(true);
+        return view('posters.generic', $data);
     }
 }

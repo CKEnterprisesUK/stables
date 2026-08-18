@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandingController;
+use App\Http\Controllers\Admin\DiagnosticsController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\HorseController as AdminHorseController;
 use App\Http\Controllers\Admin\SetupController;
@@ -127,6 +128,10 @@ Route::middleware(['auth', 'role:super_admin', 'setup.complete'])->prefix('admin
     Route::get('/admins/{user}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('admins.edit');
     Route::put('/admins/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'update'])->name('admins.update');
     Route::delete('/admins/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'destroy'])->name('admins.destroy');
+
+    // Diagnostics (super_admin only)
+    Route::get('/diagnostics', [DiagnosticsController::class, 'index'])->name('diagnostics');
+    Route::post('/diagnostics/send-test', [DiagnosticsController::class, 'sendTest'])->name('diagnostics.send-test');
 });
 
 // Stripe Webhook (excluded from CSRF via bootstrap/app.php)

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Sponsorship;
 use App\Services\CertificateService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\Http\Response;
 
 class CertificateController extends Controller
 {
@@ -19,29 +19,31 @@ class CertificateController extends Controller
     /**
      * Display the certificate as inline PDF in the browser.
      */
-    public function show(Sponsorship $sponsorship): BinaryFileResponse
+    public function show(Sponsorship $sponsorship): Response
     {
         $this->authorize('view', $sponsorship);
 
-        $path = $this->certificateService->generate($sponsorship);
+        $pdf = $this->certificateService->generate($sponsorship);
 
-        return response()->file($path, [
+        return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-        ])->deleteFileAfterSend(true);
+            'Content-Disposition' => 'inline; filename="certificate.pdf"',
+        ]);
     }
 
     /**
      * Download the certificate as a PDF file.
      */
-    public function download(Sponsorship $sponsorship): BinaryFileResponse
+    public function download(Sponsorship $sponsorship): Response
     {
         $this->authorize('view', $sponsorship);
 
-        $path = $this->certificateService->generate($sponsorship);
+        $pdf = $this->certificateService->generate($sponsorship);
         $filename = 'sponsorship-certificate-' . $sponsorship->horse->name . '.pdf';
 
-        return response()->download($path, $filename, [
+        return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-        ])->deleteFileAfterSend(true);
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 }
