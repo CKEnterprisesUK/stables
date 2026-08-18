@@ -142,8 +142,9 @@ class StripeSettingsController extends Controller
                 ->with('error', 'Stripe onboarding is not yet complete. Please finish setting up your account.');
 
         } catch (\Exception $e) {
+            report($e);
             return redirect()->route('admin.settings.stripe')
-                ->with('error', 'Error verifying Stripe account: ' . $e->getMessage());
+                ->with('error', 'Error verifying Stripe account. Please try again or check your Stripe dashboard.');
         }
     }
 

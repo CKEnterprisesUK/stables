@@ -7,6 +7,10 @@
 
         <title>{{ $branding->name ?? config('app.name', 'Horse Sponsorship') }} - @yield('title', 'Gallery')</title>
 
+        @if(($branding ?? $stableBranding ?? null)?->favicon_path)
+            <link rel="icon" href="{{ asset('storage/' . ($branding ?? $stableBranding)->favicon_path) }}">
+        @endif
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />

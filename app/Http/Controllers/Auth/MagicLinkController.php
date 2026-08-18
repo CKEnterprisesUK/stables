@@ -27,18 +27,29 @@ class MagicLinkController extends Controller
      * Handle a magic link request.
      *
      * Validates email, finds the user, creates a token, and sends the magic link email.
+     * Always returns the same response to prevent user enumeration.
      */
     public function request(MagicLinkRequest $request): RedirectResponse
     {
         $user = User::where('email', $request->validated('email'))->first();
 
-        $magicLink = MagicLink::create([
-            'user_id' => $user->id,
-            'token' => Str::random(64),
-            'expires_at' => now()->addMinutes(15),
-        ]);
+        // Only create and send the magic link if the user exists,
+        // but always return the same redirect to prevent enumeration.
+        if ($user) {
+            // Invalidate any existing unused magic links for this user
+            MagicLink::where('user_id', $user->id)
+                ->whereNull('used_at')
+                ->where('expires_at', '>', now())
+                ->update(['expires_at' => now()]);
 
-        Mail::to($user)->send(new MagicLinkMail($magicLink));
+            $magicLink = MagicLink::create([
+                'user_id' => $user->id,
+                'token' => Str::random(64),
+                'expires_at' => now()->addMinutes(15),
+            ]);
+
+            Mail::to($user)->send(new MagicLinkMail($magicLink));
+        }
 
         return redirect()->route('magic-link.sent');
     }

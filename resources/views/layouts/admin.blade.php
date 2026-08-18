@@ -7,6 +7,10 @@
 
     <title>{{ $stableBranding->name ?? config('app.name', 'Stables') }} - Admin</title>
 
+    @if($stableBranding && $stableBranding->favicon_path)
+        <link rel="icon" href="{{ asset('storage/' . $stableBranding->favicon_path) }}">
+    @endif
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-stable-50 font-sans antialiased" x-data="{ sidebarOpen: false }">

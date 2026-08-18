@@ -22,19 +22,7 @@ class MagicLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email'],
-        ];
-    }
-
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'email.exists' => 'If an account with that email exists, a magic link has been sent.',
+            'email' => ['required', 'email'],
         ];
     }
 }

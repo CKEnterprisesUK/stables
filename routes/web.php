@@ -44,7 +44,7 @@ Route::get('/terms', fn () => view('legal.terms'))->name('legal.terms');
 
 // Sponsorship Signup (no auth required)
 Route::get('/sponsor/{horse}', [SignupController::class, 'create'])->name('signup.create');
-Route::post('/sponsor/{horse}', [SignupController::class, 'store'])->name('signup.store');
+Route::post('/sponsor/{horse}', [SignupController::class, 'store'])->middleware('throttle:5,1')->name('signup.store');
 
 // Gift Sponsorship (no auth required)
 Route::get('/gift-sponsorship', [GiftPurchaseController::class, 'info'])->name('gift.info');
@@ -52,15 +52,15 @@ Route::get('/gift/{horse}', [GiftPurchaseController::class, 'create'])->name('gi
 Route::post('/gift/{horse}', [GiftPurchaseController::class, 'store'])->name('gift.store');
 Route::post('/gift/{horse}/payment-intent', [GiftPurchaseController::class, 'createPaymentIntent'])->name('gift.payment-intent');
 Route::get('/gift-success/{gift}', [GiftPurchaseController::class, 'success'])->name('gift.success');
-Route::get('/gift-download/{gift}', [GiftCardDownloadController::class, 'download'])->name('gift.download');
+Route::get('/gift-download/{gift}', [GiftCardDownloadController::class, 'download'])->name('gift.download')->middleware('signed');
 Route::get('/redeem', [GiftRedemptionController::class, 'create'])->name('gift.redeem.create');
-Route::post('/redeem', [GiftRedemptionController::class, 'store'])->name('gift.redeem.store');
+Route::post('/redeem', [GiftRedemptionController::class, 'store'])->middleware('throttle:5,1')->name('gift.redeem.store');
 
 // Magic Link Authentication (no auth required)
-Route::post('/magic-link', [MagicLinkController::class, 'request'])->name('magic-link.request');
+Route::post('/magic-link', [MagicLinkController::class, 'request'])->middleware('throttle:5,1')->name('magic-link.request');
 Route::get('/magic-link/sent', [MagicLinkController::class, 'sent'])->name('magic-link.sent');
 Route::get('/magic-link/{token}', [MagicLinkController::class, 'verify'])->name('magic-link.verify');
-Route::post('/magic-link/{token}', [MagicLinkController::class, 'login'])->name('magic-link.login');
+Route::post('/magic-link/{token}', [MagicLinkController::class, 'login'])->middleware('throttle:5,1')->name('magic-link.login');
 
 // Sponsor Portal (auth + role:sponsor)
 Route::middleware(['auth', 'role:sponsor'])->prefix('portal')->name('sponsor.')->group(function () {

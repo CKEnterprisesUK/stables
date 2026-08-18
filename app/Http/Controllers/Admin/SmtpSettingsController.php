@@ -57,7 +57,8 @@ class SmtpSettingsController extends Controller
         try {
             Mail::to($admin->email)->send(new TestSmtpMail());
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to send test email: ' . $e->getMessage());
+            report($e);
+            return back()->with('error', 'Failed to send test email. Please check your SMTP settings and try again.');
         }
 
         return back()->with('status', 'Test email sent to ' . $admin->email);

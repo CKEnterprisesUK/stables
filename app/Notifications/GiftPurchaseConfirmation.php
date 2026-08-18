@@ -56,7 +56,7 @@ class GiftPurchaseConfirmation extends Notification implements ShouldQueue
             ->line("You've purchased a {$this->gift->months}-month gift sponsorship for {$horseName}.")
             ->line("The gift code is: **{$this->gift->code}**")
             ->line("The recipient can redeem this code to start their sponsorship without needing a credit card.")
-            ->action('Download Gift Card', route('gift.download', $this->gift))
+            ->action('Download Gift Card', \URL::signedRoute('gift.download', ['gift' => $this->gift]))
             ->line("The gift code is valid until {$this->gift->expires_at->format('F j, Y')}.")
             ->line('Thank you for your generous support!')
             ->salutation('Sponsorship portal kindly provided by [CK Enterprises UK](https://ckenterprises.co.uk)')

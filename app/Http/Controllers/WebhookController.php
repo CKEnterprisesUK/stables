@@ -14,6 +14,21 @@ use Symfony\Component\HttpFoundation\Response;
 class WebhookController extends CashierWebhookController
 {
     /**
+     * Create a new WebhookController instance.
+     *
+     * Ensures the webhook secret is configured — if not, the endpoint
+     * refuses all requests to prevent unverified webhooks being processed.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (!config('cashier.webhook.secret')) {
+            abort(500, 'Stripe webhook secret is not configured.');
+        }
+    }
+
+    /**
      * Handle customer subscription deleted.
      *
      * Extends Cashier's handler to also update the local Sponsorship record.

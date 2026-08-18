@@ -43,6 +43,27 @@
                 @enderror
             </div>
 
+            @if ($branding?->favicon_path)
+                <div>
+                    <label class="block text-sm font-medium text-stable-700 mb-3">Current Favicon</label>
+                    <div class="inline-block p-4 bg-stable-50 rounded-xl border border-stable-200">
+                        <img src="{{ asset('storage/' . $branding->favicon_path) }}"
+                             alt="Favicon"
+                             class="h-8 w-8 object-contain">
+                    </div>
+                </div>
+            @endif
+
+            <div>
+                <label for="favicon" class="block text-sm font-medium text-stable-700">{{ $branding?->favicon_path ? 'Replace Favicon' : 'Upload Favicon' }}</label>
+                <input type="file" name="favicon" id="favicon" accept="image/x-icon,image/png,image/svg+xml"
+                    class="mt-1 block w-full text-sm text-stable-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100">
+                <p class="mt-1 text-xs text-stable-500">ICO, PNG, or SVG. Max 512KB.</p>
+                @error('favicon')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="pt-2">
                 <button type="submit"
                     class="inline-flex items-center px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 shadow-sm transition-colors">

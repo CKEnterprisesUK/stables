@@ -78,6 +78,24 @@ class GiftPurchaseController extends Controller
 
         $totalAmount = $amountInCents * $validated['months'];
 
+        // Verify the Payment Intent actually succeeded via Stripe API
+        try {
+            $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+            $paymentIntent = $stripe->paymentIntents->retrieve($validated['payment_intent_id']);
+
+            if ($paymentIntent->status !== 'succeeded') {
+                return back()->with('error', 'Payment has not been completed. Please try again.');
+            }
+
+            // Verify the amount matches what we expect (prevents amount tampering)
+            if ($paymentIntent->amount !== $totalAmount) {
+                return back()->with('error', 'Payment amount mismatch. Please try again.');
+            }
+        } catch (\Exception $e) {
+            report($e);
+            return back()->with('error', 'Unable to verify payment. Please try again or contact support.');
+        }
+
         // Create the gift sponsorship record
         $gift = GiftSponsorship::create([
             'code' => GiftSponsorship::generateCode(),

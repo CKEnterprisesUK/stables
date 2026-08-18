@@ -151,9 +151,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                 </svg>
                 <div class="text-sm text-stable-600">
-                    <p class="font-medium text-stable-700 mb-1">How Stripe Connect works</p>
-                    <p>Stripe Connect lets you accept payments directly into your own Stripe account. You'll set up or link your Stripe account through their secure onboarding process — no need to manually copy API keys.</p>
-                    <p class="mt-2">Payments from sponsors flow directly to your connected account, and you manage payouts, refunds, and disputes from your own Stripe Dashboard.</p>
+                    <p class="font-medium text-stable-700 mb-1">How payments work</p>
+                    <p>This platform uses <strong>Stripe Connect</strong> to process sponsorship payments. When you connect your Stripe account, payments from sponsors flow directly into it — no need to manually copy API keys or handle sensitive card data.</p>
+                    <p class="mt-2">Stripe charges their <strong>standard transaction fee</strong> (typically 1.5% + 20p for UK cards, or 2.5% + 20p for EU cards) on each payment. These fees are deducted automatically by Stripe before the funds reach your account. There are no additional platform fees.</p>
+                    <p class="mt-2">You manage payouts, refunds, and disputes from your own Stripe Dashboard.</p>
                 </div>
             </div>
         </div>
