@@ -36,7 +36,7 @@
 
         <!-- Navigation Links -->
         <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-            @if(auth()->user()?->role === \App\Enums\UserRole::SuperAdmin)
+            @if(auth()->user()?->role === \App\Enums\UserRole::SuperAdmin && \App\Http\Controllers\Admin\SetupController::hasIncompleteSteps())
             <a href="{{ route('admin.setup') }}"
                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
                       {{ request()->routeIs('admin.setup') ? 'bg-brand-50 text-brand-700' : 'text-stable-600 hover:bg-stable-100 hover:text-stable-900' }}">
