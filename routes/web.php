@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SmtpSettingsController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
 use App\Http\Controllers\Admin\SponsorshipInfoController;
 use App\Http\Controllers\Admin\StripeSettingsController;
+use App\Http\Controllers\Admin\PosterController as AdminPosterController;
 use App\Http\Controllers\Admin\UpdateController as AdminUpdateController;
 use App\Http\Controllers\Auth\MagicLinkController;
 use App\Http\Controllers\GalleryController;
@@ -74,6 +75,10 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin', 's
     Route::resource('horses', AdminHorseController::class);
     Route::resource('horses.updates', AdminUpdateController::class)->only(['create', 'store']);
     Route::post('/horses/{horse}/updates/{update}/notify', [AdminUpdateController::class, 'notify'])->name('horses.updates.notify');
+
+    // Sponsorship posters
+    Route::get('/horses/{horse}/poster', [AdminPosterController::class, 'horse'])->name('horses.poster');
+    Route::get('/poster', [AdminPosterController::class, 'generic'])->name('poster.generic');
 });
 
 // Admin Panel — sponsorship & finance management (super_admin + sponsorship_admin)

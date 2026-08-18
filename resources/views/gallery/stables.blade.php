@@ -38,7 +38,7 @@
                                 <img
                                     src="{{ asset('storage/' . $horse->photos->first()->path) }}"
                                     alt="{{ $horse->name }}"
-                                    class="w-28 h-28 object-cover rounded-lg {{ $isSponsored ? 'ring-2 ring-brand-300' : '' }}"
+                                    class="w-28 h-28 max-h-28 object-cover rounded-lg {{ $isSponsored ? 'ring-2 ring-brand-300' : '' }}"
                                 >
                             @else
                                 <div class="w-28 h-28 bg-stable-100 rounded-lg flex items-center justify-center">
@@ -104,7 +104,7 @@
                                                 @if($update->photos->isNotEmpty())
                                                     <div class="mt-3 flex gap-2">
                                                         @foreach($update->photos->take(3) as $photo)
-                                                            <img src="{{ asset('storage/' . $photo->path) }}" alt="Update photo" class="w-16 h-16 object-cover rounded">
+                                                            <img src="{{ asset('storage/' . $photo->path) }}" alt="Update photo" class="w-16 h-16 max-h-16 object-cover rounded">
                                                         @endforeach
                                                     </div>
                                                 @endif

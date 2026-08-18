@@ -6,13 +6,22 @@
             <h1 class="text-2xl font-bold text-stable-900">Horses</h1>
             <p class="mt-1 text-sm text-stable-500">Manage your stable's horses and their profiles.</p>
         </div>
-        <a href="{{ route('admin.horses.create') }}"
-           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 shadow-sm transition-colors">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Add Horse
-        </a>
+        <div class="flex gap-2">
+            <a href="{{ route('admin.poster.generic') }}"
+               class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stable-100 text-stable-700 text-sm font-medium rounded-lg hover:bg-stable-200 border border-stable-300 shadow-sm transition-colors">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                Sponsorship Poster
+            </a>
+            <a href="{{ route('admin.horses.create') }}"
+               class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 shadow-sm transition-colors">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Add Horse
+            </a>
+        </div>
     </div>
 
     <!-- Desktop table view -->
