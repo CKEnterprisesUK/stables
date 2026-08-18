@@ -14,6 +14,8 @@ class GiftPurchaseConfirmation extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $deleteWhenMissingModels = true;
+
     /**
      * Create a new notification instance.
      */

@@ -13,6 +13,8 @@ class PaymentFailedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $deleteWhenMissingModels = true;
+
     /**
      * Create a new notification instance.
      */

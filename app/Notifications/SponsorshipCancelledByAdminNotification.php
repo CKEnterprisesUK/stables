@@ -13,6 +13,8 @@ class SponsorshipCancelledByAdminNotification extends Notification implements Sh
 {
     use Queueable;
 
+    public $deleteWhenMissingModels = true;
+
     /**
      * Create a new notification instance.
      */

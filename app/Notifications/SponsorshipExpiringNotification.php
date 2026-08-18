@@ -13,6 +13,8 @@ class SponsorshipExpiringNotification extends Notification implements ShouldQueu
 {
     use Queueable;
 
+    public $deleteWhenMissingModels = true;
+
     /**
      * Create a new notification instance.
      */
