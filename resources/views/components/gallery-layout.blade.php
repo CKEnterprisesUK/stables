@@ -36,6 +36,7 @@
                         @endif
                     </a>
                     <nav class="flex items-center gap-4">
+                        <a href="{{ route('gift.info') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Gift a Sponsorship</a>
                         @auth
                             @if(auth()->user()->role->isAdmin())
                                 <a href="{{ route('admin.horses.index') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Admin</a>

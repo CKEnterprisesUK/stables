@@ -142,12 +142,23 @@
                 <p class="mt-1 text-sm text-stable-600">
                     Support {{ $horse->name }} with a monthly sponsorship and receive updates and a certificate.
                 </p>
-                <a
-                    href="{{ route('signup.create', $horse) }}"
-                    class="mt-4 inline-flex items-center px-5 py-2.5 bg-brand-600 text-white font-medium text-sm rounded-lg hover:bg-brand-700 shadow-sm transition-colors"
-                >
-                    Sponsor This Horse
-                </a>
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <a
+                        href="{{ route('signup.create', $horse) }}"
+                        class="inline-flex items-center px-5 py-2.5 bg-brand-600 text-white font-medium text-sm rounded-lg hover:bg-brand-700 shadow-sm transition-colors"
+                    >
+                        Sponsor This Horse
+                    </a>
+                    <a
+                        href="{{ route('gift.create', $horse) }}"
+                        class="inline-flex items-center px-5 py-2.5 border border-brand-600 text-brand-700 font-medium text-sm rounded-lg hover:bg-brand-50 transition-colors"
+                    >
+                        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                        </svg>
+                        Gift a Sponsorship
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -45,6 +45,7 @@ Route::get('/sponsor/{horse}', [SignupController::class, 'create'])->name('signu
 Route::post('/sponsor/{horse}', [SignupController::class, 'store'])->name('signup.store');
 
 // Gift Sponsorship (no auth required)
+Route::get('/gift-sponsorship', [GiftPurchaseController::class, 'info'])->name('gift.info');
 Route::get('/gift/{horse}', [GiftPurchaseController::class, 'create'])->name('gift.create');
 Route::post('/gift/{horse}', [GiftPurchaseController::class, 'store'])->name('gift.store');
 Route::post('/gift/{horse}/payment-intent', [GiftPurchaseController::class, 'createPaymentIntent'])->name('gift.payment-intent');

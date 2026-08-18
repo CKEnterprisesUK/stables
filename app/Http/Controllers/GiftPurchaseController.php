@@ -15,6 +15,21 @@ use Illuminate\View\View;
 class GiftPurchaseController extends Controller
 {
     /**
+     * Show the gift sponsorship information/landing page.
+     */
+    public function info(): View
+    {
+        $settings = StripeSetting::first();
+        $monthlyAmount = $settings?->sponsorship_amount;
+        $branding = \App\Models\StableBranding::first();
+
+        return view('gift.info', [
+            'monthlyAmount' => $monthlyAmount ?? 0,
+            'branding' => $branding,
+        ]);
+    }
+
+    /**
      * Show the gift sponsorship purchase form.
      */
     public function create(Horse $horse): View
