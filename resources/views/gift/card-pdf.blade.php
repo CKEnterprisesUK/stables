@@ -149,6 +149,21 @@
             color: #666666;
             margin-top: 3mm;
         }
+
+        .qr-section {
+            margin-top: 4mm;
+        }
+
+        .qr-code {
+            width: 25mm;
+            height: 25mm;
+        }
+
+        .qr-label {
+            font-size: 7pt;
+            color: #888888;
+            margin-top: 1mm;
+        }
     </style>
 </head>
 <body>
@@ -189,8 +204,13 @@
         <div class="code-value">{{ $code }}</div>
     </div>
 
+    <div class="qr-section">
+        <img src="{{ $qrCodeDataUri }}" alt="Scan to redeem" class="qr-code">
+        <div class="qr-label">Scan to redeem</div>
+    </div>
+
     <div class="redeem-info">
-        To redeem this gift, visit:<br>
+        Or visit:<br>
         <span class="redeem-url">{{ $redeemUrl }}</span>
     </div>
 

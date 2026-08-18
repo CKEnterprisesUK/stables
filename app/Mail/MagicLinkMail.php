@@ -42,7 +42,7 @@ class MagicLinkMail extends Mailable
         return new Content(
             view: 'emails.magic-link',
             with: [
-                'url' => route('magic-link.authenticate', $this->magicLink->token),
+                'url' => route('magic-link.verify', $this->magicLink->token),
                 'expiresAt' => $this->magicLink->expires_at,
                 'centreName' => $centreName,
             ],

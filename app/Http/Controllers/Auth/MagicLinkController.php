@@ -52,11 +52,40 @@ class MagicLinkController extends Controller
     }
 
     /**
-     * Authenticate a user via a magic link token.
+     * Show the confirm sign-in page for a magic link token (GET).
      *
-     * Handles error cases: expired, used, or invalid tokens.
+     * This intermediate step prevents email security scanners (Office 365 Safe Links,
+     * Mimecast, Proofpoint, etc.) from consuming the magic link via automated GET requests.
+     * The actual authentication only happens when the user clicks the button (POST).
      */
-    public function authenticate(string $token): RedirectResponse
+    public function verify(string $token): View|RedirectResponse
+    {
+        $magicLink = MagicLink::where('token', $token)->first();
+
+        // Invalid token - 404
+        if (! $magicLink) {
+            abort(404);
+        }
+
+        // Already used
+        if (! is_null($magicLink->used_at)) {
+            return redirect()->route('login')->with('status', 'This magic link has already been used. Please request a new one.');
+        }
+
+        // Expired
+        if ($magicLink->expires_at->isPast()) {
+            return redirect()->route('login')->with('status', 'This magic link has expired. Please request a new one.');
+        }
+
+        return view('auth.magic-link-confirm', ['token' => $token]);
+    }
+
+    /**
+     * Authenticate a user via a magic link token (POST).
+     *
+     * Only triggered by the user clicking the sign-in button on the confirm page.
+     */
+    public function login(string $token): RedirectResponse
     {
         $magicLink = MagicLink::where('token', $token)->first();
 

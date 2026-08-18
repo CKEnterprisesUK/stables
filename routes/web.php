@@ -59,7 +59,8 @@ Route::post('/redeem', [GiftRedemptionController::class, 'store'])->name('gift.r
 // Magic Link Authentication (no auth required)
 Route::post('/magic-link', [MagicLinkController::class, 'request'])->name('magic-link.request');
 Route::get('/magic-link/sent', [MagicLinkController::class, 'sent'])->name('magic-link.sent');
-Route::get('/magic-link/{token}', [MagicLinkController::class, 'authenticate'])->name('magic-link.authenticate');
+Route::get('/magic-link/{token}', [MagicLinkController::class, 'verify'])->name('magic-link.verify');
+Route::post('/magic-link/{token}', [MagicLinkController::class, 'login'])->name('magic-link.login');
 
 // Sponsor Portal (auth + role:sponsor)
 Route::middleware(['auth', 'role:sponsor'])->prefix('portal')->name('sponsor.')->group(function () {
