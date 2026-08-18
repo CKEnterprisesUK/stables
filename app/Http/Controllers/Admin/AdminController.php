@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\AdminInviteNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -38,26 +41,29 @@ class AdminController extends Controller
     }
 
     /**
-     * Store a newly created admin user.
+     * Store a newly created admin user and send an invite email to set their password.
      */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'string', Rule::in(array_map(fn ($r) => $r->value, UserRole::adminRoles()))],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make(Str::random(32)),
             'role' => $validated['role'],
         ]);
 
+        // Generate a password reset token and send the invite email
+        $token = Password::broker()->createToken($user);
+        $user->notify(new AdminInviteNotification($token));
+
         return redirect()->route('admin.admins.index')
-            ->with('status', 'Admin user created successfully.');
+            ->with('status', 'Admin user created and invite email sent.');
     }
 
     /**

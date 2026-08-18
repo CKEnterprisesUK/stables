@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Panel — all admin roles can access horses and post updates
-Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin', 'setup.complete'])->prefix('admin')->name('admin.')->group(function () {
     // Horse management & updates — accessible by all admin roles
     Route::resource('horses', AdminHorseController::class);
     Route::resource('horses.updates', AdminUpdateController::class)->only(['create', 'store']);
@@ -76,14 +76,14 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin,update_admin'])->
 });
 
 // Admin Panel — sponsorship & finance management (super_admin + sponsorship_admin)
-Route::middleware(['auth', 'role:super_admin,sponsorship_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin,sponsorship_admin', 'setup.complete'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/sponsors', [AdminSponsorController::class, 'index'])->name('sponsors.index');
     Route::get('/sponsors/{user}', [AdminSponsorController::class, 'show'])->name('sponsors.show');
     Route::post('/sponsorships/{sponsorship}/cancel', [AdminSponsorController::class, 'cancel'])->name('sponsorship.cancel');
 });
 
 // Admin Panel — settings & config (super_admin only)
-Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin', 'setup.complete'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/setup', [SetupController::class, 'index'])->name('setup');
 
     Route::get('/settings/general', [GeneralSettingsController::class, 'edit'])->name('settings.general');
@@ -100,7 +100,6 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/settings/stripe/callback', [StripeSettingsController::class, 'callback'])->name('settings.stripe.callback');
     Route::delete('/settings/stripe/disconnect', [StripeSettingsController::class, 'disconnect'])->name('settings.stripe.disconnect');
     Route::get('/settings/stripe/dashboard', [StripeSettingsController::class, 'dashboard'])->name('settings.stripe.dashboard');
-    Route::post('/settings/stripe/create-product', [StripeSettingsController::class, 'createProduct'])->name('settings.stripe.create-product');
 
     // Admin user management (super_admin only)
     Route::get('/admins', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admins.index');

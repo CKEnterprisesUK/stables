@@ -169,49 +169,6 @@ class StripeSettingsController extends Controller
     }
 
     /**
-     * Create a Stripe Product and Price on the connected account.
-     */
-    public function createProduct(): RedirectResponse
-    {
-        $settings = StripeSetting::first();
-
-        if (!$settings || !$settings->isConnected()) {
-            return back()->with('error', 'Please connect your Stripe account first.');
-        }
-
-        if ($settings->price_id) {
-            return back()->with('error', 'A product and price already exist.');
-        }
-
-        try {
-            $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-            $currency = config('cashier.currency', 'eur');
-
-            // Create product and price on the platform account
-            // (destination charges will route to the connected account)
-            $product = $stripe->products->create([
-                'name' => 'Sponsorship Unit',
-                'description' => 'Monthly horse sponsorship unit (1 ' . strtoupper($currency) . ')',
-            ]);
-
-            $price = $stripe->prices->create([
-                'product' => $product->id,
-                'unit_amount' => 100, // 1 unit of currency
-                'currency' => $currency,
-                'recurring' => [
-                    'interval' => 'month',
-                ],
-            ]);
-
-            $settings->update(['price_id' => $price->id]);
-
-            return back()->with('status', 'Sponsorship product and price created successfully.');
-        } catch (\Stripe\Exception\ApiErrorException $e) {
-            return back()->with('error', 'Stripe API error: ' . $e->getMessage());
-        }
-    }
-
-    /**
      * Open the connected account's Stripe Dashboard.
      *
      * For accounts with full dashboard access, redirect to the Stripe login page.

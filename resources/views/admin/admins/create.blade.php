@@ -51,27 +51,12 @@
                 @enderror
             </div>
 
-            <div>
-                <label for="password" class="block text-sm font-medium text-stable-700">Password</label>
-                <input type="password" name="password" id="password"
-                       class="mt-1 block w-full rounded-lg border-stable-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
-                       required>
-                @error('password')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="password_confirmation" class="block text-sm font-medium text-stable-700">Confirm Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation"
-                       class="mt-1 block w-full rounded-lg border-stable-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
-                       required>
-            </div>
+            <p class="text-sm text-stable-500">An email will be sent to the user with a link to set their password.</p>
 
             <div class="flex items-center gap-4 pt-2">
                 <button type="submit"
                         class="inline-flex items-center px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 shadow-sm transition-colors">
-                    Create Admin
+                    Create & Send Invite
                 </button>
                 <a href="{{ route('admin.admins.index') }}" class="text-sm font-medium text-stable-600 hover:text-stable-800 transition-colors">Cancel</a>
             </div>

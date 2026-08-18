@@ -123,34 +123,23 @@
             </div>
         </div>
 
-        <!-- Sponsorship Product Configuration -->
+        <!-- Sponsorship Product Status (auto-managed) -->
         @if($settings && $settings->isConnected())
             <div class="bg-white shadow-sm border border-stable-200 rounded-xl p-6">
                 <h2 class="text-lg font-semibold text-stable-900 mb-2">Sponsorship Product</h2>
 
                 @if($settings->price_id)
-                    <p class="text-sm text-stable-500 mb-4">Your sponsorship product is configured and ready to accept payments.</p>
-                    <div class="p-3 bg-stable-50 rounded-lg border border-stable-100">
-                        <dl class="text-sm">
-                            <dt class="text-stable-500">Price ID</dt>
-                            <dd class="font-mono text-xs text-stable-700 mt-0.5">{{ $settings->price_id }}</dd>
-                        </dl>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-brand-50 text-brand-700 ring-1 ring-brand-200">
+                            <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                            Active
+                        </span>
                     </div>
+                    <p class="text-sm text-stable-500">Your sponsorship product is configured and ready to accept payments. The price is managed from <a href="{{ route('admin.settings.general') }}" class="text-brand-600 hover:text-brand-700 underline">Pricing</a>.</p>
                 @else
-                    <p class="text-sm text-stable-500 mb-4">
-                        Create a sponsorship product to start accepting payments. This sets up a per-unit monthly price
-                        (1 {{ strtoupper(config('cashier.currency', 'eur')) }}/month per unit) that sponsors can purchase in any quantity.
+                    <p class="text-sm text-stable-500">
+                        The sponsorship product will be created automatically when you set a price in <a href="{{ route('admin.settings.general') }}" class="text-brand-600 hover:text-brand-700 underline">Pricing</a>.
                     </p>
-                    <form method="POST" action="{{ route('admin.settings.stripe.create-product') }}">
-                        @csrf
-                        <button type="submit"
-                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 shadow-sm transition-colors">
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                            Create Sponsorship Product
-                        </button>
-                    </form>
                 @endif
             </div>
         @endif

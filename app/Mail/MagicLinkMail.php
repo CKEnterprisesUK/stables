@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\MagicLink;
+use App\Models\StableBranding;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -35,11 +36,15 @@ class MagicLinkMail extends Mailable
      */
     public function content(): Content
     {
+        $branding = StableBranding::first();
+        $centreName = $branding->name ?? 'Margaret Haes Riding Centre';
+
         return new Content(
             view: 'emails.magic-link',
             with: [
                 'url' => route('magic-link.authenticate', $this->magicLink->token),
                 'expiresAt' => $this->magicLink->expires_at,
+                'centreName' => $centreName,
             ],
         );
     }

@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-stable-900">General Settings</h1>
-        <p class="mt-1 text-sm text-stable-500">Configure sponsorship pricing and general options.</p>
+        <h1 class="text-2xl font-bold text-stable-900">Sponsorship Pricing</h1>
+        <p class="mt-1 text-sm text-stable-500">Set the monthly price sponsors pay. The Stripe product is created automatically.</p>
     </div>
 
     <div class="max-w-2xl space-y-6">
@@ -52,7 +52,7 @@
                     @error('sponsorship_amount')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
-                    <p class="mt-2 text-xs text-stable-500">This price will be shown to sponsors during signup. All sponsors pay the same monthly amount.</p>
+                    <p class="mt-2 text-xs text-stable-500">This price will be shown to sponsors during signup. All sponsors pay the same monthly amount. When you save, the Stripe payment product is created automatically if needed.</p>
                 </div>
 
                 <div class="mt-6 flex items-center gap-3">
@@ -82,6 +82,7 @@
                 <div class="text-sm text-stable-600">
                     <p class="font-medium text-stable-700 mb-1">About sponsorship pricing</p>
                     <p>The price you set here applies to all new sponsorships. Existing active sponsorships will continue at their original price until cancelled or updated via Stripe.</p>
+                    <p class="mt-2">When you save, the Stripe product is configured automatically — no need to set pricing separately in Stripe.</p>
                 </div>
             </div>
         </div>

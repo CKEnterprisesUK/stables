@@ -24,6 +24,27 @@ class SetupController extends Controller
     }
 
     /**
+     * Check if there are any incomplete setup steps.
+     */
+    public static function hasIncompleteSteps(): bool
+    {
+        $stripe = StripeSetting::first();
+        $smtp = SmtpSetting::first();
+        $branding = StableBranding::first();
+        $horseCount = Horse::count();
+
+        $checks = [
+            $stripe && $stripe->isConnected(),
+            $stripe && !empty($stripe->sponsorship_amount_cents) && !empty($stripe->price_id),
+            $smtp && !empty($smtp->host),
+            $branding && (!empty($branding->logo_path) || !empty($branding->name)),
+            $horseCount > 0,
+        ];
+
+        return in_array(false, $checks, true);
+    }
+
+    /**
      * Build the checklist steps with their completion status.
      *
      * @return array<int, array{key: string, title: string, description: string, why: string, completed: bool, action_url: string, action_label: string}>
@@ -46,13 +67,13 @@ class SetupController extends Controller
                 'action_label' => 'Set up payments',
             ],
             [
-                'key' => 'product',
-                'title' => 'Create sponsorship product',
-                'description' => 'Set up the monthly sponsorship price in Stripe. This defines the per-unit amount sponsors are charged.',
-                'why' => 'The sponsorship product tells Stripe how much to charge each month. Without it, the sign-up form can\'t create subscriptions.',
-                'completed' => $stripe && !empty($stripe->price_id),
-                'action_url' => route('admin.settings.stripe'),
-                'action_label' => 'Create product',
+                'key' => 'pricing',
+                'title' => 'Set sponsorship price',
+                'description' => 'Choose the monthly amount that sponsors will be charged. The payment product is created automatically in Stripe.',
+                'why' => 'Sponsors need to know how much they\'ll pay each month. Setting the price also configures the Stripe product needed to process payments.',
+                'completed' => $stripe && !empty($stripe->sponsorship_amount_cents) && !empty($stripe->price_id),
+                'action_url' => route('admin.settings.general'),
+                'action_label' => 'Set pricing',
             ],
             [
                 'key' => 'email',
