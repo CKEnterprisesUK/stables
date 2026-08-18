@@ -19,6 +19,8 @@ class StripeSetting extends Model
         'stripe_secret_encrypted',
         'webhook_secret_encrypted',
         'price_id',
+        'stripe_account_id',
+        'stripe_connect_status',
     ];
 
     /**
@@ -34,16 +36,36 @@ class StripeSetting extends Model
     /**
      * Get the decrypted Stripe secret key.
      */
-    public function getStripeSecretAttribute(): string
+    public function getStripeSecretAttribute(): ?string
     {
-        return decrypt($this->stripe_secret_encrypted);
+        return $this->stripe_secret_encrypted
+            ? decrypt($this->stripe_secret_encrypted)
+            : null;
     }
 
     /**
      * Get the decrypted webhook secret.
      */
-    public function getWebhookSecretAttribute(): string
+    public function getWebhookSecretAttribute(): ?string
     {
-        return decrypt($this->webhook_secret_encrypted);
+        return $this->webhook_secret_encrypted
+            ? decrypt($this->webhook_secret_encrypted)
+            : null;
+    }
+
+    /**
+     * Check if Stripe Connect is active.
+     */
+    public function isConnected(): bool
+    {
+        return $this->stripe_connect_status === 'connected' && !empty($this->stripe_account_id);
+    }
+
+    /**
+     * Check if onboarding is still pending.
+     */
+    public function isPending(): bool
+    {
+        return $this->stripe_connect_status === 'pending';
     }
 }

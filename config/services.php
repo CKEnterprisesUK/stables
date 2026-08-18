@@ -30,6 +30,7 @@ return [
 
     'stripe' => [
         'price_id' => env('STRIPE_PRICE_ID'),
+        'connect_client_id' => env('STRIPE_CONNECT_CLIENT_ID'),
     ],
 
     'slack' => [

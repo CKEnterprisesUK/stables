@@ -60,7 +60,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/settings/smtp', [SmtpSettingsController::class, 'update'])->name('settings.smtp.update');
     Route::post('/settings/smtp/test', [SmtpSettingsController::class, 'sendTestEmail'])->name('settings.smtp.test');
     Route::get('/settings/stripe', [StripeSettingsController::class, 'edit'])->name('settings.stripe');
-    Route::put('/settings/stripe', [StripeSettingsController::class, 'update'])->name('settings.stripe.update');
+    Route::get('/settings/stripe/connect', [StripeSettingsController::class, 'connect'])->name('settings.stripe.connect');
+    Route::get('/settings/stripe/callback', [StripeSettingsController::class, 'callback'])->name('settings.stripe.callback');
+    Route::delete('/settings/stripe/disconnect', [StripeSettingsController::class, 'disconnect'])->name('settings.stripe.disconnect');
+    Route::get('/settings/stripe/dashboard', [StripeSettingsController::class, 'dashboard'])->name('settings.stripe.dashboard');
     Route::post('/settings/stripe/create-product', [StripeSettingsController::class, 'createProduct'])->name('settings.stripe.create-product');
 });
 
