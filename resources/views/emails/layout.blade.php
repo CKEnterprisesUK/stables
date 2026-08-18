@@ -131,7 +131,7 @@
             <!-- Footer -->
             <div class="footer">
                 <p>&copy; {{ date('Y') }} {{ $centreName ?? 'Margaret Haes Riding Centre' }}. All rights reserved.</p>
-                <p>This is an automated message from {{ $centreName ?? 'Margaret Haes Riding Centre' }}.</p>
+                <p>Sponsorship portal kindly provided by CK Enterprises UK</p>
             </div>
         </div>
     </div>

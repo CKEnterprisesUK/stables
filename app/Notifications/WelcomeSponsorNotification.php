@@ -66,7 +66,6 @@ class WelcomeSponsorNotification extends Notification implements ShouldQueue
                 'sponsorName' => $notifiable->name,
                 'childName' => $this->sponsorship->child_name,
                 'monthlyAmount' => $this->sponsorship->monthly_amount,
-                'certificateUrl' => route('sponsor.certificate.download', $this->sponsorship),
                 'portalUrl' => route('sponsor.dashboard'),
             ])
             ->attachData($pdf, $filename, [

@@ -4,7 +4,7 @@
 
 @section('from_name', $horseName)
 
-@section('header_subtitle', "via {{ $centreName ?? 'Margaret Haes Riding Centre' }}")
+@section('header_subtitle', 'via ' . ($centreName ?? 'Margaret Haes Riding Centre'))
 
 @if($horsePhoto)
 @section('horse_photo')
@@ -27,14 +27,10 @@
 
     <p>As a sponsor, you'll receive regular updates about how I'm doing, and you can visit your sponsor portal any time to see my latest news.</p>
 
+    <p>Your sponsorship certificate is attached to this email.</p>
+
     <p style="text-align: center; margin: 28px 0;">
-        <a href="{{ $certificateUrl }}" class="btn">Download Your Sponsorship Certificate</a>
-    </p>
-
-    <p>You can also view and download your certificate any time from your sponsor portal.</p>
-
-    <p style="text-align: center; margin-top: 20px;">
-        <a href="{{ $portalUrl }}" style="color: #4f46e5; text-decoration: underline; font-size: 14px;">Visit Your Sponsor Portal</a>
+        <a href="{{ $portalUrl }}" class="btn">Visit the Updates Portal for {{ $horseName }}</a>
     </p>
 
     <p style="font-size: 13px; color: #6b7280; margin-top: 28px;">

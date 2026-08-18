@@ -59,6 +59,7 @@ class GiftPurchaseConfirmation extends Notification implements ShouldQueue
             ->action('Download Gift Card', route('gift.download', $this->gift))
             ->line("The gift code is valid until {$this->gift->expires_at->format('F j, Y')}.")
             ->line('Thank you for your generous support!')
+            ->salutation('Sponsorship portal kindly provided by CK Enterprises UK')
             ->attachData($pdf, $filename, [
                 'mime' => 'application/pdf',
             ]);
