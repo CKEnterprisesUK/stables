@@ -1,0 +1,14 @@
+# Redirect all requests to the public/ subdirectory.
+# Use this when the domain/document-root points to the project root
+# on shared hosting, so that Laravel's public/index.php handles all
+# requests without exposing /public/ in the browser URL.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Skip rewriting if the request is already inside the public directory
+    RewriteRule ^public/ - [L]
+
+    # Forward everything else into public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
