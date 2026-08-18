@@ -25,14 +25,21 @@ class StripeConfigProvider
             return;
         }
 
-        $secret = decrypt($settings->stripe_secret_encrypted);
+        // Only override config if legacy encrypted keys are present
+        if ($settings->stripe_secret_encrypted) {
+            try {
+                $secret = decrypt($settings->stripe_secret_encrypted);
 
-        config([
-            'services.stripe.key' => $settings->stripe_key,
-            'services.stripe.secret' => $secret,
-            'cashier.key' => $settings->stripe_key,
-            'cashier.secret' => $secret,
-        ]);
+                config([
+                    'services.stripe.key' => $settings->stripe_key,
+                    'services.stripe.secret' => $secret,
+                    'cashier.key' => $settings->stripe_key,
+                    'cashier.secret' => $secret,
+                ]);
+            } catch (\Illuminate\Contracts\Encryption\DecryptException) {
+                // Invalid or corrupted payload — skip and use .env defaults
+            }
+        }
 
         if ($settings->price_id) {
             config([
