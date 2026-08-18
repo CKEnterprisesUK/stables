@@ -50,6 +50,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all invoices for the user.
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
      * Check if the user has any admin role.
      */
     public function isAdmin(): bool

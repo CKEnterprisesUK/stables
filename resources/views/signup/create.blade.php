@@ -43,12 +43,13 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Monthly Amount -->
+        <!-- Monthly Amount (fixed by admin) -->
         <div class="mt-4">
-            <x-input-label for="monthly_amount" :value="__('Monthly Sponsorship Amount (£)')" />
-            <x-text-input id="monthly_amount" class="block mt-1 w-full" type="number" name="monthly_amount"
-                          :value="old('monthly_amount', 5)" required min="1" step="1" />
-            <x-input-error :messages="$errors->get('monthly_amount')" class="mt-2" />
+            <x-input-label :value="__('Monthly Sponsorship Amount')" />
+            <div class="mt-1 flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-md">
+                <span class="text-lg font-semibold text-gray-900">&pound;{{ number_format($monthlyAmount, 2) }}</span>
+                <span class="text-sm text-gray-500">per month</span>
+            </div>
         </div>
 
         <!-- Child Name (Optional) -->

@@ -25,7 +25,6 @@ class SignupRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'monthly_amount' => ['required', 'numeric', 'min:1'],
             'child_name' => ['nullable', 'string', 'max:255'],
             'payment_method' => ['required', 'string'],
         ];
@@ -40,7 +39,6 @@ class SignupRequest extends FormRequest
     {
         return [
             'email.unique' => 'An account with this email already exists. Please log in instead.',
-            'monthly_amount.min' => 'The minimum sponsorship amount is £1 per month.',
             'payment_method.required' => 'Please provide a valid payment method.',
         ];
     }

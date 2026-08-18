@@ -18,7 +18,11 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    @if($stableBranding && $stableBranding->logo_path)
+                        <img src="{{ asset('storage/' . $stableBranding->logo_path) }}" alt="{{ $stableBranding->name ?? config('app.name') }}" class="h-20 w-auto max-w-[200px] object-contain">
+                    @else
+                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    @endif
                 </a>
             </div>
 

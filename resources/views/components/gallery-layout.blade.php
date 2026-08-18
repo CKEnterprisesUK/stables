@@ -64,7 +64,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-stable-500">
                     <p>&copy; {{ date('Y') }} {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}. All rights reserved.</p>
-                    <p>Kindly provided by <a href="https://ckenterprises.co.uk" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium transition-colors">ckenterprises.co.uk</a></p>
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('legal.privacy') }}" class="hover:text-stable-700 transition-colors">Privacy</a>
+                        <a href="{{ route('legal.terms') }}" class="hover:text-stable-700 transition-colors">Terms</a>
+                        <span>&middot;</span>
+                        <p>Kindly provided by <a href="https://ckenterprises.co.uk" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium transition-colors">CK Enterprises UK</a></p>
+                    </div>
                 </div>
             </div>
         </footer>

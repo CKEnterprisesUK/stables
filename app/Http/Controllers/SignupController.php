@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use App\Http\Requests\SignupRequest;
 use App\Models\Horse;
 use App\Models\Sponsorship;
+use App\Models\StripeSetting;
 use App\Models\User;
 use App\Notifications\WelcomeSponsorNotification;
 use App\Services\StripeServiceInterface;
@@ -25,9 +26,17 @@ class SignupController extends Controller
     {
         $horse->load('photos');
 
+        $settings = StripeSetting::first();
+        $monthlyAmount = $settings?->sponsorship_amount;
+
+        if (!$monthlyAmount) {
+            abort(503, 'Sponsorship pricing has not been configured yet.');
+        }
+
         return view('signup.create', [
             'horse' => $horse,
             'stripeKey' => config('services.stripe.key'),
+            'monthlyAmount' => $monthlyAmount,
         ]);
     }
 
@@ -44,7 +53,14 @@ class SignupController extends Controller
     {
         $validated = $request->validated();
 
-        return DB::transaction(function () use ($validated, $horse) {
+        $settings = StripeSetting::first();
+        $amountInCents = $settings->sponsorship_amount_cents;
+
+        if (!$amountInCents) {
+            return back()->with('error', 'Sponsorship pricing has not been configured. Please try again later.');
+        }
+
+        return DB::transaction(function () use ($validated, $horse, $amountInCents) {
             // 1. Create user account
             $user = User::create([
                 'name' => $validated['name'],
@@ -54,7 +70,6 @@ class SignupController extends Controller
             ]);
 
             // 2. Create Stripe customer + subscription
-            $amountInCents = (int) ($validated['monthly_amount'] * 100);
             $stripeService = app(StripeServiceInterface::class);
             $subscription = $stripeService->createSubscription(
                 $user,

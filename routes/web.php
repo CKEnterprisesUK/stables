@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\HorseController as AdminHorseController;
 use App\Http\Controllers\Admin\SmtpSettingsController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
+use App\Http\Controllers\Admin\SponsorshipInfoController;
 use App\Http\Controllers\Admin\StripeSettingsController;
 use App\Http\Controllers\Admin\UpdateController as AdminUpdateController;
 use App\Http\Controllers\Auth\MagicLinkController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\SignupController;
 use App\Http\Controllers\Sponsor\BillingController;
 use App\Http\Controllers\Sponsor\CertificateController;
 use App\Http\Controllers\Sponsor\DashboardController;
+use App\Http\Controllers\Sponsor\HorseUpdatesController;
 use App\Http\Controllers\Sponsor\SponsorshipController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +22,15 @@ use Illuminate\Support\Facades\Route;
 // Public Gallery Routes (no auth required)
 Route::get('/', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/horses/{horse}', [GalleryController::class, 'show'])->name('gallery.show');
+Route::get('/stables', [GalleryController::class, 'stables'])->name('stables');
+Route::get('/sponsorship-info', function () {
+    $branding = \App\Models\StableBranding::first();
+    return view('gallery.sponsorship-info', compact('branding'));
+})->name('sponsorship-info');
+
+// Legal Pages (no auth required)
+Route::get('/privacy', fn () => view('legal.privacy'))->name('legal.privacy');
+Route::get('/terms', fn () => view('legal.terms'))->name('legal.terms');
 
 // Sponsorship Signup (no auth required)
 Route::get('/sponsor/{horse}', [SignupController::class, 'create'])->name('signup.create');
@@ -33,6 +44,7 @@ Route::get('/magic-link/{token}', [MagicLinkController::class, 'authenticate'])-
 Route::middleware(['auth', 'role:sponsor'])->prefix('portal')->name('sponsor.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/billing', [BillingController::class, 'redirectToStripe'])->name('billing');
+    Route::get('/horses/{horse}/updates', [HorseUpdatesController::class, 'index'])->name('horse.updates');
     Route::get('/sponsorships/{sponsorship}/certificate', [CertificateController::class, 'show'])->name('certificate');
     Route::get('/sponsorships/{sponsorship}/certificate/download', [CertificateController::class, 'download'])->name('certificate.download');
     Route::post('/sponsorships/{sponsorship}/cancel', [SponsorshipController::class, 'cancel'])->name('sponsorship.cancel');
@@ -66,6 +78,8 @@ Route::middleware(['auth', 'role:super_admin,sponsorship_admin'])->prefix('admin
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/branding', [BrandingController::class, 'edit'])->name('branding.edit');
     Route::put('/branding', [BrandingController::class, 'update'])->name('branding.update');
+    Route::get('/sponsorship-info', [SponsorshipInfoController::class, 'edit'])->name('sponsorship-info.edit');
+    Route::put('/sponsorship-info', [SponsorshipInfoController::class, 'update'])->name('sponsorship-info.update');
     Route::get('/settings/smtp', [SmtpSettingsController::class, 'edit'])->name('settings.smtp');
     Route::put('/settings/smtp', [SmtpSettingsController::class, 'update'])->name('settings.smtp.update');
     Route::post('/settings/smtp/test', [SmtpSettingsController::class, 'sendTestEmail'])->name('settings.smtp.test');
