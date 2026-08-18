@@ -21,33 +21,34 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-50">
+    <body class="font-sans antialiased bg-stable-50">
         <!-- Header with stable branding -->
-        <header class="bg-white shadow-sm">
+        <header class="bg-white shadow-sm border-b border-stable-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('gallery') }}" class="flex items-center gap-3">
+                    <a href="{{ route('gallery') }}" class="flex items-center">
                         @if($activeBranding && $activeBranding->logo_path)
-                            <img src="{{ asset('storage/' . $activeBranding->logo_path) }}" alt="{{ $activeBranding->name }}" class="h-10 w-auto">
+                            <img src="{{ asset('storage/' . $activeBranding->logo_path) }}" alt="{{ $activeBranding->name }}" class="h-10 w-auto max-w-[180px] object-contain">
+                        @else
+                            <h1 class="text-xl font-bold text-stable-900">
+                                {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}
+                            </h1>
                         @endif
-                        <h1 class="text-xl font-bold text-gray-900">
-                            {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}
-                        </h1>
                     </a>
                     <nav class="flex items-center gap-4">
                         @auth
                             @if(auth()->user()->role === \App\Enums\UserRole::Admin)
-                                <a href="{{ route('admin.horses.index') }}" class="text-sm text-gray-600 hover:text-gray-900">Admin</a>
+                                <a href="{{ route('admin.horses.index') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Admin</a>
                             @endif
                             @if(auth()->user()->role === \App\Enums\UserRole::Sponsor)
-                                <a href="{{ route('sponsor.dashboard') }}" class="text-sm text-gray-600 hover:text-gray-900">My Sponsorships</a>
+                                <a href="{{ route('sponsor.dashboard') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">My Sponsorships</a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="text-sm text-gray-600 hover:text-gray-900">Logout</button>
+                                <button type="submit" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
+                            <a href="{{ route('login') }}" class="text-sm text-stable-600 hover:text-stable-900 transition-colors">Login</a>
                         @endauth
                     </nav>
                 </div>
@@ -60,9 +61,12 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white border-t mt-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm text-gray-500">
-                &copy; {{ date('Y') }} {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}. All rights reserved.
+        <footer class="bg-white border-t border-stable-200 mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-stable-500">
+                    <p>&copy; {{ date('Y') }} {{ $activeBranding->name ?? config('app.name', 'Horse Sponsorship') }}. All rights reserved.</p>
+                    <p>Kindly provided by <a href="https://ckenterprises.co.uk" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium transition-colors">ckenterprises.co.uk</a></p>
+                </div>
             </div>
         </footer>
     </body>

@@ -25,18 +25,13 @@
         <!-- Logo / Brand -->
         <div class="flex items-center gap-3 px-6 py-5 border-b border-stable-100">
             @if($stableBranding && $stableBranding->logo_path)
-                <img src="{{ asset('storage/' . $stableBranding->logo_path) }}" alt="{{ $stableBranding->name }}" class="h-9 w-9 rounded-lg object-cover">
+                <img src="{{ asset('storage/' . $stableBranding->logo_path) }}" alt="{{ $stableBranding->name }}" class="h-10 w-auto max-w-[160px] object-contain">
             @else
-                <div class="h-9 w-9 rounded-lg bg-brand-100 flex items-center justify-center">
-                    <svg class="h-5 w-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    </svg>
+                <div class="min-w-0">
+                    <p class="text-base font-semibold text-stable-900 truncate">{{ $stableBranding->name ?? config('app.name', 'Stables') }}</p>
+                    <p class="text-xs text-stable-500">Admin Panel</p>
                 </div>
             @endif
-            <div class="min-w-0">
-                <p class="text-sm font-semibold text-stable-900 truncate">{{ $stableBranding->name ?? config('app.name', 'Stables') }}</p>
-                <p class="text-xs text-stable-500">Admin Panel</p>
-            </div>
         </div>
 
         <!-- Navigation Links -->
@@ -130,7 +125,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
-                <span class="text-sm font-semibold text-stable-900">{{ $stableBranding->name ?? config('app.name', 'Stables') }}</span>
+                @if($stableBranding && $stableBranding->logo_path)
+                    <img src="{{ asset('storage/' . $stableBranding->logo_path) }}" alt="{{ $stableBranding->name }}" class="h-8 w-auto max-w-[120px] object-contain">
+                @else
+                    <span class="text-sm font-semibold text-stable-900">{{ $stableBranding->name ?? config('app.name', 'Stables') }}</span>
+                @endif
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="text-stable-400 hover:text-stable-600" title="Logout">

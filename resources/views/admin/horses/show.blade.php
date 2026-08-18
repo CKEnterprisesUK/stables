@@ -48,7 +48,7 @@
                         @foreach ($horse->photos as $photo)
                             <img src="{{ asset('storage/' . $photo->path) }}"
                                  alt="{{ $horse->name }}"
-                                 class="h-40 w-full rounded-lg object-cover ring-1 ring-stable-200">
+                                 class="aspect-[4/3] w-full rounded-lg object-cover ring-1 ring-stable-200">
                         @endforeach
                     </div>
                 @else

@@ -43,7 +43,7 @@
                             <div class="relative group rounded-lg overflow-hidden ring-1 ring-stable-200">
                                 <img src="{{ asset('storage/' . $photo->path) }}"
                                      alt="{{ $horse->name }}"
-                                     class="h-32 w-full object-cover">
+                                     class="aspect-[4/3] w-full object-cover">
                                 <label class="absolute inset-0 flex items-center justify-center bg-stable-900/0 group-hover:bg-stable-900/40 transition-colors cursor-pointer">
                                     <span class="hidden group-hover:flex items-center gap-1.5 bg-white rounded-lg px-3 py-1.5 text-xs font-medium text-red-600 shadow-sm">
                                         <input type="checkbox" name="delete_photos[]" value="{{ $photo->id }}" class="rounded border-stable-300 text-red-600 focus:ring-red-500">
