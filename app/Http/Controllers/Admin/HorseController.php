@@ -34,7 +34,11 @@ class HorseController extends Controller
      */
     public function store(HorseRequest $request): RedirectResponse
     {
-        $horse = Horse::create($request->only(['name', 'facts']));
+        $horse = Horse::create($request->only([
+            'name', 'facts', 'date_of_birth', 'breed', 'colour',
+            'gender', 'height_hands', 'arrival_date', 'personality',
+            'favourite_treats', 'backstory',
+        ]));
 
         $this->uploadPhotos($horse, $request);
 
@@ -67,7 +71,11 @@ class HorseController extends Controller
      */
     public function update(HorseRequest $request, Horse $horse): RedirectResponse
     {
-        $horse->update($request->only(['name', 'facts']));
+        $horse->update($request->only([
+            'name', 'facts', 'date_of_birth', 'breed', 'colour',
+            'gender', 'height_hands', 'arrival_date', 'personality',
+            'favourite_treats', 'backstory',
+        ]));
 
         // Delete selected photos
         if ($request->has('delete_photos')) {

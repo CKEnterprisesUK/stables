@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Horse extends Model
 {
@@ -17,7 +18,37 @@ class Horse extends Model
     protected $fillable = [
         'name',
         'facts',
+        'date_of_birth',
+        'breed',
+        'colour',
+        'gender',
+        'height_hands',
+        'arrival_date',
+        'personality',
+        'favourite_treats',
+        'backstory',
     ];
+
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'arrival_date' => 'date',
+        'height_hands' => 'decimal:1',
+    ];
+
+    /**
+     * Get the horse's age calculated from date of birth.
+     */
+    public function getAgeAttribute(): ?int
+    {
+        if (!$this->date_of_birth) {
+            return null;
+        }
+
+        return $this->date_of_birth->age;
+    }
 
     /**
      * Get the photos for the horse, ordered by sort_order.

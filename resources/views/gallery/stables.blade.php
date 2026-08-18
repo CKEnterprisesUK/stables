@@ -55,6 +55,18 @@
                                     <a href="{{ route('gallery.show', $horse) }}" class="text-xl font-semibold text-stable-900 hover:text-brand-700 transition-colors">
                                         {{ $horse->name }}
                                     </a>
+                                    {{-- Quick profile line --}}
+                                    @php
+                                        $profileBits = array_filter([
+                                            $horse->age ? $horse->age . ' yrs old' : null,
+                                            $horse->breed,
+                                            $horse->gender,
+                                            $horse->colour,
+                                        ]);
+                                    @endphp
+                                    @if(!empty($profileBits))
+                                        <p class="mt-0.5 text-xs text-stable-500">{{ implode(' · ', $profileBits) }}</p>
+                                    @endif
                                     @if($horse->facts)
                                         <p class="mt-1 text-sm text-stable-600">{{ Str::limit($horse->facts, 150) }}</p>
                                     @endif

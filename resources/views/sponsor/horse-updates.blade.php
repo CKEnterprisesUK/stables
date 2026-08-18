@@ -30,6 +30,17 @@
                     @endif
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $horse->name }}</h3>
+                        @php
+                            $profileBits = array_filter([
+                                $horse->age ? $horse->age . ' yrs old' : null,
+                                $horse->breed,
+                                $horse->gender,
+                                $horse->colour,
+                            ]);
+                        @endphp
+                        @if(!empty($profileBits))
+                            <p class="mt-0.5 text-xs text-gray-500">{{ implode(' · ', $profileBits) }}</p>
+                        @endif
                         @if($horse->facts)
                             <p class="mt-1 text-sm text-gray-600">{{ Str::limit($horse->facts, 200) }}</p>
                         @endif
