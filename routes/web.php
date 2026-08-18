@@ -137,6 +137,7 @@ Route::middleware(['auth', 'role:super_admin', 'setup.complete'])->prefix('admin
     // Diagnostics (super_admin only)
     Route::get('/diagnostics', [DiagnosticsController::class, 'index'])->name('diagnostics');
     Route::post('/diagnostics/send-test', [DiagnosticsController::class, 'sendTest'])->name('diagnostics.send-test');
+    Route::post('/diagnostics/process-queue', [DiagnosticsController::class, 'processQueue'])->name('diagnostics.process-queue');
 });
 
 // Stripe Webhook (excluded from CSRF via bootstrap/app.php)

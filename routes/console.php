@@ -20,8 +20,10 @@ Artisan::command('inspire', function () {
 */
 
 Schedule::command('queue:work --stop-when-empty --tries=3 --timeout=60')
-    ->everyMinute()
-    ->withoutOverlapping();
+    ->everyMinute();
 
 // Check for expiring gift sponsorships daily at 8am
 Schedule::command('sponsorships:check-expiring')->dailyAt('08:00');
+
+// Sync Stripe invoices daily at 3am to backfill any missed webhook events
+Schedule::command('invoices:sync')->dailyAt('03:00');

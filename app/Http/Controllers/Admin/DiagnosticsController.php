@@ -73,4 +73,27 @@ class DiagnosticsController extends Controller
             return back()->with('error', 'Failed to send: ' . $e->getMessage());
         }
     }
+
+    public function processQueue()
+    {
+        // Clear any stale scheduler mutex/lock
+        $cache = app('cache')->store();
+        $cache->forget('framework/schedule-' . sha1('queue:work --stop-when-empty --tries=3 --timeout=60'));
+
+        try {
+            \Illuminate\Support\Facades\Artisan::call('queue:work', [
+                '--stop-when-empty' => true,
+                '--tries' => 3,
+                '--timeout' => 30,
+            ]);
+
+            $output = \Illuminate\Support\Facades\Artisan::output();
+
+            $pending = DB::table('jobs')->count();
+
+            return back()->with('status', "Queue processed. Remaining jobs: {$pending}. Output: {$output}");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Queue processing failed: ' . $e->getMessage());
+        }
+    }
 }

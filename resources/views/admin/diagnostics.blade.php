@@ -104,6 +104,20 @@
                 </form>
             </div>
 
+            {{-- Process Queue Manually --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Process Queue Now</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Manually process all pending jobs right now. This also clears any stale scheduler locks.
+                </p>
+                <form method="POST" action="{{ route('admin.diagnostics.process-queue') }}">
+                    @csrf
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 text-sm font-medium">
+                        Process Queue
+                    </button>
+                </form>
+            </div>
+
             @isset($data['db_error'])
                 <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded text-sm">
                     <strong>Database error:</strong> {{ $data['db_error'] }}
