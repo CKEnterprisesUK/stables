@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Sponsor;
 
 use App\Http\Controllers\Controller;
+use App\Models\HorseUpdate;
 use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
 {
     /**
-     * Display the sponsor's dashboard with all sponsorships and horse updates.
-     *
-     * Shows all sponsorships (active and past) with horse info.
-     * For active sponsorships, includes the most recent horse updates.
-     * Past/cancelled sponsorships do not show updates.
+     * Display the sponsor's dashboard with sponsorship management at top
+     * and a Facebook-like feed of horse updates below.
      */
     public function index(): View
     {
@@ -23,22 +21,21 @@ class DashboardController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        // Load recent updates only for active sponsorships
-        $activeSponshorshipIds = $sponsorships
+        // Get all active sponsorship horse IDs for the feed
+        $activeHorseIds = $sponsorships
             ->where('status.value', 'active')
             ->pluck('horse_id')
             ->unique();
 
-        $updatesByHorse = [];
-        if ($activeSponshorshipIds->isNotEmpty()) {
-            $updatesByHorse = \App\Models\HorseUpdate::whereIn('horse_id', $activeSponshorshipIds)
-                ->with('photos')
+        // Load updates as a chronological feed (newest first) for active sponsorships
+        $feed = collect();
+        if ($activeHorseIds->isNotEmpty()) {
+            $feed = HorseUpdate::whereIn('horse_id', $activeHorseIds)
+                ->with(['photos', 'horse.photos'])
                 ->orderByDesc('created_at')
-                ->get()
-                ->groupBy('horse_id')
-                ->map(fn ($updates) => $updates->take(10));
+                ->paginate(15);
         }
 
-        return view('sponsor.dashboard', compact('sponsorships', 'updatesByHorse'));
+        return view('sponsor.dashboard', compact('sponsorships', 'feed'));
     }
 }
