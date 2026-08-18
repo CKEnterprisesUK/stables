@@ -26,7 +26,7 @@ class CertificateService
             'stableName' => $branding?->name ?? 'Our Stable',
             'stableLogo' => $branding?->logo_path,
             'horsePhoto' => $horsePhoto?->path,
-        ]);
+        ])->setPaper('a4', 'landscape');
 
         return $pdf->output();
     }
