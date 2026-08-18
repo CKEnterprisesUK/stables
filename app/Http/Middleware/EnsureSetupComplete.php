@@ -27,12 +27,13 @@ class EnsureSetupComplete
             return $next($request);
         }
 
-        // Don't redirect if already on the setup page or a settings page
-        // (they need access to settings to complete the setup)
+        // Don't redirect if already on the setup page or a page needed to complete setup
+        // (they need access to settings, branding, and horse creation to finish the checklist)
         if ($request->routeIs('admin.setup')
             || $request->routeIs('admin.settings.*')
             || $request->routeIs('admin.branding.*')
             || $request->routeIs('admin.sponsorship-info.*')
+            || $request->routeIs('admin.horses.*')
         ) {
             return $next($request);
         }
