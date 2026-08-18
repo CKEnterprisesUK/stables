@@ -4,153 +4,199 @@
     <meta charset="utf-8">
     <title>Sponsorship Certificate</title>
     <style>
-        @page {
-            size: 297mm 210mm;
-            margin: 8mm;
-            border: 3px solid #2c5f2d;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'DejaVu Sans', sans-serif;
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Georgia', 'Times New Roman', serif;
             color: #333333;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .certificate {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 40px;
+            position: relative;
+        }
+
+        .border-outer {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 4px solid #2c5f2d;
+            pointer-events: none;
+        }
+
+        .border-inner {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+            border: 1px solid #4a7c4f;
+            pointer-events: none;
+        }
+
+        .certificate-header {
             text-align: center;
+            margin-bottom: 12px;
         }
 
         .stable-logo {
-            max-width: 22mm;
-            max-height: 22mm;
-            margin-top: 2mm;
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 6px;
         }
 
         .stable-name {
-            font-size: 9pt;
+            font-size: 11px;
             color: #555555;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            margin-top: 1mm;
+            font-family: 'Arial', sans-serif;
         }
 
         .certificate-title {
-            font-size: 22pt;
+            font-size: 36px;
             color: #2c5f2d;
             font-weight: bold;
-            margin-top: 4mm;
+            margin-top: 10px;
+            letter-spacing: 1px;
         }
 
         .certificate-subtitle {
-            font-size: 9pt;
+            font-size: 13px;
             color: #777777;
-            margin-top: 1mm;
+            margin-top: 4px;
         }
 
         .decorative-line {
-            width: 40mm;
-            height: 1px;
-            background-color: #2c5f2d;
-            margin: 3mm auto;
+            width: 160px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #2c5f2d, transparent);
+            margin: 12px auto;
         }
 
         .display-name {
-            font-size: 18pt;
+            font-size: 30px;
             font-weight: bold;
             color: #2c5f2d;
         }
 
         .certificate-text {
-            font-size: 9pt;
+            font-size: 14px;
             color: #444444;
-            margin-top: 2mm;
+            margin-top: 8px;
         }
 
         .horse-name {
-            font-size: 15pt;
+            font-size: 24px;
             font-weight: bold;
             color: #4a7c4f;
             font-style: italic;
-            margin-top: 2mm;
+            margin-top: 8px;
         }
 
         .horse-photo {
-            width: 20mm;
-            height: 20mm;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            border: 2px solid #2c5f2d;
-            margin: 3mm auto;
+            border: 3px solid #2c5f2d;
+            margin-top: 10px;
+            object-fit: cover;
         }
 
         .certificate-date {
-            font-size: 8pt;
+            font-size: 11px;
             color: #666666;
-            margin-top: 2mm;
+            margin-top: 10px;
         }
 
         .signature-section {
-            margin-top: 4mm;
+            margin-top: 14px;
+            text-align: center;
         }
 
         .hoof-img {
-            width: 9mm;
-            height: 9mm;
+            width: 36px;
+            height: 36px;
         }
 
         .signature-name {
-            font-size: 10pt;
+            font-size: 14px;
             font-style: italic;
             color: #4a7c4f;
-            margin-top: 1mm;
+            margin-top: 4px;
         }
 
         .signature-label {
-            font-size: 7pt;
+            font-size: 9px;
             color: #999999;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-top: 2px;
+            font-family: 'Arial', sans-serif;
         }
 
         .certificate-footer {
-            font-size: 7pt;
+            font-size: 9px;
             color: #bbbbbb;
-            margin-top: 4mm;
+            margin-top: 14px;
+            font-family: 'Arial', sans-serif;
         }
     </style>
 </head>
 <body>
-    @if($stableLogo)
-        <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo"><br>
-    @endif
-    <div class="stable-name">{{ $stableName }}</div>
+    <div class="certificate">
+        <div class="border-outer"></div>
+        <div class="border-inner"></div>
 
-    <h1 class="certificate-title">Certificate of Sponsorship</h1>
-    <div class="certificate-subtitle">This certificate is proudly presented to</div>
+        <div class="certificate-header">
+            @if($stableLogo)
+                <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo"><br>
+            @endif
+            <span class="stable-name">{{ $stableName }}</span>
+        </div>
 
-    <div class="decorative-line"></div>
+        <div class="certificate-title">Certificate of Sponsorship</div>
+        <div class="certificate-subtitle">This certificate is proudly presented to</div>
 
-    <div class="display-name">{{ $displayName }}</div>
+        <div class="decorative-line"></div>
 
-    <div class="certificate-text">In recognition of their generous sponsorship of</div>
+        <div class="display-name">{{ $displayName }}</div>
 
-    <div class="horse-name">{{ $horseName }}</div>
+        <div class="certificate-text">In recognition of their generous sponsorship of</div>
 
-    @if($horsePhoto)
-        <img src="{{ public_path('storage/' . $horsePhoto) }}" alt="{{ $horseName }}" class="horse-photo"><br>
-    @endif
+        <div class="horse-name">{{ $horseName }}</div>
 
-    <div class="decorative-line"></div>
+        @if($horsePhoto)
+            <img src="{{ public_path('storage/' . $horsePhoto) }}" alt="{{ $horseName }}" class="horse-photo">
+        @endif
 
-    <div class="certificate-date">Sponsorship commenced on {{ $startDate }}</div>
+        <div class="decorative-line"></div>
 
-    <div class="signature-section">
-        <img src="{{ public_path('images/hoof-print.png') }}" alt="Hoof print" class="hoof-img"><br>
-        <span class="signature-name">{{ $horseName }}</span><br>
-        <span class="signature-label">With love and gratitude</span>
+        <div class="certificate-date">Sponsorship commenced on {{ $startDate }}</div>
+
+        <div class="signature-section">
+            <img src="{{ public_path('images/hoof-print.png') }}" alt="Hoof print" class="hoof-img"><br>
+            <span class="signature-name">{{ $horseName }}</span><br>
+            <span class="signature-label">With love and gratitude</span>
+        </div>
+
+        <div class="certificate-footer">Issued by {{ $stableName }}</div>
     </div>
-
-    <div class="certificate-footer">Issued by {{ $stableName }}</div>
 </body>
 </html>

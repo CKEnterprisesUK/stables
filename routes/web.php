@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\PosterController as AdminPosterController;
 use App\Http\Controllers\Admin\UpdateController as AdminUpdateController;
 use App\Http\Controllers\Auth\MagicLinkController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GiftCardDownloadController;
+use App\Http\Controllers\GiftPurchaseController;
+use App\Http\Controllers\GiftRedemptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\Sponsor\AddSponsorshipController;
@@ -40,6 +43,15 @@ Route::get('/terms', fn () => view('legal.terms'))->name('legal.terms');
 // Sponsorship Signup (no auth required)
 Route::get('/sponsor/{horse}', [SignupController::class, 'create'])->name('signup.create');
 Route::post('/sponsor/{horse}', [SignupController::class, 'store'])->name('signup.store');
+
+// Gift Sponsorship (no auth required)
+Route::get('/gift/{horse}', [GiftPurchaseController::class, 'create'])->name('gift.create');
+Route::post('/gift/{horse}', [GiftPurchaseController::class, 'store'])->name('gift.store');
+Route::post('/gift/{horse}/payment-intent', [GiftPurchaseController::class, 'createPaymentIntent'])->name('gift.payment-intent');
+Route::get('/gift-success/{gift}', [GiftPurchaseController::class, 'success'])->name('gift.success');
+Route::get('/gift-download/{gift}', [GiftCardDownloadController::class, 'download'])->name('gift.download');
+Route::get('/redeem', [GiftRedemptionController::class, 'create'])->name('gift.redeem.create');
+Route::post('/redeem', [GiftRedemptionController::class, 'store'])->name('gift.redeem.store');
 
 // Magic Link Authentication (no auth required)
 Route::post('/magic-link', [MagicLinkController::class, 'request'])->name('magic-link.request');

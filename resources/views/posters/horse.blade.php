@@ -4,32 +4,31 @@
     <meta charset="utf-8">
     <title>Sponsor {{ $horseName }}</title>
     <style>
-        @page {
-            margin: 0;
-            size: A4 portrait;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'DejaVu Sans', sans-serif;
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #ffffff;
             color: #333333;
-            margin: 0;
-            padding: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .poster {
             width: 100%;
-            min-height: 100%;
-            padding: 35px 45px 30px;
+            height: 100%;
+            padding: 30px 40px 25px;
             text-align: center;
             position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .border-outer {
@@ -39,10 +38,11 @@
             right: 10px;
             bottom: 10px;
             border: 3px solid #2c5f2d;
+            pointer-events: none;
         }
 
         .header {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .stable-logo {
@@ -59,24 +59,24 @@
         }
 
         .title {
-            font-size: 30px;
+            font-size: 32px;
             color: #2c5f2d;
-            margin: 10px 0 4px;
+            margin: 8px 0 4px;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: #666666;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .decorative-line {
             width: 180px;
             height: 2px;
-            background-color: #2c5f2d;
-            margin: 10px auto;
+            background: linear-gradient(to right, transparent, #2c5f2d, transparent);
+            margin: 8px 0;
         }
 
         .horse-photo {
@@ -84,29 +84,27 @@
             height: 220px;
             border-radius: 10px;
             border: 3px solid #2c5f2d;
-            margin: 10px auto;
+            margin: 10px 0;
             object-fit: cover;
-            display: block;
         }
 
         .horse-name {
             font-size: 24px;
             font-weight: bold;
             color: #2c5f2d;
-            margin: 8px 0 6px;
+            margin: 6px 0;
         }
 
         .facts-section {
-            margin: 8px auto;
+            margin: 6px 0;
             max-width: 380px;
             text-align: left;
         }
 
         .fact-item {
-            font-size: 10px;
+            font-size: 11px;
             color: #444444;
-            padding: 2px 0;
-            padding-left: 14px;
+            padding: 2px 0 2px 16px;
             position: relative;
         }
 
@@ -119,48 +117,48 @@
         }
 
         .sponsor-section {
-            margin-top: 12px;
-            padding: 15px;
+            margin-top: auto;
+            padding: 14px 20px;
             background: #f8faf8;
             border: 1px solid #e0e8e0;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 400px;
         }
 
         .sponsor-cta {
             font-size: 16px;
             font-weight: bold;
             color: #2c5f2d;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .sponsor-text {
             font-size: 10px;
             color: #555555;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .qr-code {
-            margin: 6px auto;
-            width: 130px;
-            height: 130px;
+            margin: 4px auto;
         }
 
         .qr-code img {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
         }
 
         .sponsor-url {
             font-size: 9px;
             color: #666666;
-            margin-top: 6px;
+            margin-top: 4px;
             word-break: break-all;
         }
 
         .footer {
-            margin-top: 12px;
+            margin-top: 10px;
             font-size: 8px;
             color: #aaaaaa;
-            text-align: center;
         }
     </style>
 </head>
@@ -170,9 +168,9 @@
 
         <div class="header">
             @if($stableLogo)
-                <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo">
+                <img src="{{ public_path('storage/' . $stableLogo) }}" alt="{{ $stableName }}" class="stable-logo"><br>
             @endif
-            <div class="stable-name">{{ $stableName }}</div>
+            <span class="stable-name">{{ $stableName }}</span>
         </div>
 
         <h1 class="title">Sponsor Me!</h1>

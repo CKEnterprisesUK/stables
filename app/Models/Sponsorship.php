@@ -22,6 +22,7 @@ class Sponsorship extends Model
         'child_name',
         'status',
         'ends_at',
+        'gift_sponsorship_id',
     ];
 
     /**
@@ -55,10 +56,34 @@ class Sponsorship extends Model
     }
 
     /**
+     * Get the gift sponsorship that created this sponsorship (if any).
+     */
+    public function giftSponsorship(): BelongsTo
+    {
+        return $this->belongsTo(GiftSponsorship::class);
+    }
+
+    /**
      * Determine if this is a child sponsorship.
      */
     public function isChildSponsorship(): bool
     {
         return !is_null($this->child_name);
+    }
+
+    /**
+     * Determine if this sponsorship was created from a gift.
+     */
+    public function isGift(): bool
+    {
+        return $this->status === SponsorshipStatus::Gift;
+    }
+
+    /**
+     * Determine if this gift sponsorship has expired.
+     */
+    public function isExpired(): bool
+    {
+        return $this->status === SponsorshipStatus::Expired;
     }
 }

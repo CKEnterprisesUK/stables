@@ -4,15 +4,16 @@ namespace App\Services;
 
 use App\Models\Horse;
 use App\Models\StableBranding;
-use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\Enums\Format;
 
 class PosterService
 {
     /**
      * Generate a sponsorship poster PDF for a specific horse.
      *
-     * @return string PDF content as raw string
+     * @return string Path to the generated PDF
      */
     public function generateHorsePoster(Horse $horse): string
     {
@@ -25,7 +26,13 @@ class PosterService
             ->margin(0)
             ->generate($sponsorUrl);
 
-        $pdf = Pdf::loadView('posters.horse', [
+        $tempPath = storage_path('app/temp/poster-horse-' . $horse->id . '-' . time() . '.pdf');
+
+        if (!is_dir(dirname($tempPath))) {
+            mkdir(dirname($tempPath), 0755, true);
+        }
+
+        Pdf::view('posters.horse', [
             'horse' => $horse,
             'horseName' => $horse->name,
             'horseFacts' => $horse->facts,
@@ -34,15 +41,18 @@ class PosterService
             'stableLogo' => $branding?->logo_path,
             'sponsorUrl' => $sponsorUrl,
             'qrCode' => base64_encode($qrCode),
-        ])->setPaper('a4', 'portrait');
+        ])
+            ->format(Format::A4)
+            ->margins(0, 0, 0, 0)
+            ->save($tempPath);
 
-        return $pdf->output();
+        return $tempPath;
     }
 
     /**
      * Generate a generic sponsorship poster PDF (not horse-specific).
      *
-     * @return string PDF content as raw string
+     * @return string Path to the generated PDF
      */
     public function generateGenericPoster(): string
     {
@@ -54,14 +64,23 @@ class PosterService
             ->margin(0)
             ->generate($sponsorUrl);
 
-        $pdf = Pdf::loadView('posters.generic', [
+        $tempPath = storage_path('app/temp/poster-generic-' . time() . '.pdf');
+
+        if (!is_dir(dirname($tempPath))) {
+            mkdir(dirname($tempPath), 0755, true);
+        }
+
+        Pdf::view('posters.generic', [
             'stableName' => $branding?->name ?? config('app.name', 'Stables'),
             'stableLogo' => $branding?->logo_path,
             'sponsorshipInfo' => $branding?->sponsorship_info,
             'sponsorUrl' => $sponsorUrl,
             'qrCode' => base64_encode($qrCode),
-        ])->setPaper('a4', 'portrait');
+        ])
+            ->format(Format::A4)
+            ->margins(0, 0, 0, 0)
+            ->save($tempPath);
 
-        return $pdf->output();
+        return $tempPath;
     }
 }
