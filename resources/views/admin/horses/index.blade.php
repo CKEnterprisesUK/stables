@@ -56,7 +56,7 @@
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-3">
-                                <a href="{{ route('admin.horses.edit', $horse) }}" class="text-sm font-medium text-brand-600 hover:text-brand-800 transition-colors">Edit</a>
+                                <a href="{{ route('admin.horses.show', $horse) }}" class="text-sm font-medium text-brand-600 hover:text-brand-800 transition-colors">View</a>
                                 <form action="{{ route('admin.horses.destroy', $horse) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this horse?')">
                                     @csrf
                                     @method('DELETE')
