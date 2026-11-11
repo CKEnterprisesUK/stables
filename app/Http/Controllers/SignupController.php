@@ -67,8 +67,10 @@ class SignupController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password'] ?? Str::random(32)),
-                'role' => UserRole::Sponsor,
             ]);
+
+            $user->role = UserRole::Sponsor;
+            $user->save();
 
             // 2. Create Stripe customer + subscription
             $stripeService = app(StripeServiceInterface::class);

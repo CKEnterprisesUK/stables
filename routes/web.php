@@ -49,8 +49,8 @@ Route::post('/sponsor/{horse}', [SignupController::class, 'store'])->middleware(
 // Gift Sponsorship (no auth required)
 Route::get('/gift-sponsorship', [GiftPurchaseController::class, 'info'])->name('gift.info');
 Route::get('/gift/{horse}', [GiftPurchaseController::class, 'create'])->name('gift.create');
-Route::post('/gift/{horse}', [GiftPurchaseController::class, 'store'])->name('gift.store');
-Route::post('/gift/{horse}/payment-intent', [GiftPurchaseController::class, 'createPaymentIntent'])->name('gift.payment-intent');
+Route::post('/gift/{horse}', [GiftPurchaseController::class, 'store'])->middleware('throttle:5,1')->name('gift.store');
+Route::post('/gift/{horse}/payment-intent', [GiftPurchaseController::class, 'createPaymentIntent'])->middleware('throttle:10,1')->name('gift.payment-intent');
 Route::get('/gift-success/{gift}', [GiftPurchaseController::class, 'success'])->name('gift.success');
 Route::get('/gift-download/{gift}', [GiftCardDownloadController::class, 'download'])->name('gift.download')->middleware('signed');
 Route::get('/redeem', [GiftRedemptionController::class, 'create'])->name('gift.redeem.create');

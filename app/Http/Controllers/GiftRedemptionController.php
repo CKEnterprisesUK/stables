@@ -84,8 +84,10 @@ class GiftRedemptionController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password'] ?? Str::random(32)),
-                'role' => UserRole::Sponsor,
             ]);
+
+            $user->role = UserRole::Sponsor;
+            $user->save();
 
             // 2. Create sponsorship record — no stripe_subscription_id, uses Gift status
             $endsAt = now()->addMonths($gift->months);

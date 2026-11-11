@@ -39,7 +39,8 @@ class CertificateController extends Controller
         $this->authorize('view', $sponsorship);
 
         $pdf = $this->certificateService->generate($sponsorship);
-        $filename = 'sponsorship-certificate-' . $sponsorship->horse->name . '.pdf';
+        $safeName = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $sponsorship->horse->name);
+        $filename = "sponsorship-certificate-{$safeName}.pdf";
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',

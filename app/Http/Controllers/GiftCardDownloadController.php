@@ -16,7 +16,8 @@ class GiftCardDownloadController extends Controller
     public function download(GiftSponsorship $gift, GiftCardService $giftCardService): Response
     {
         $horseName = $gift->horse->name ?? 'horse';
-        $filename = 'gift-sponsorship-' . str_replace(' ', '-', strtolower($horseName)) . '.pdf';
+        $safeName = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $horseName);
+        $filename = "gift-sponsorship-{$safeName}.pdf";
 
         $pdf = $giftCardService->generate($gift);
 

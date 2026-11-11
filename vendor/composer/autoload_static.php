@@ -136,6 +136,10 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         array (
             'voku\\' => 5,
         ),
+        'e' =>
+        array (
+            'enshrined\\svgSanitize\\' => 22,
+        ),
         'W' =>
         array (
             'Whoops\\' => 7,
@@ -293,6 +297,10 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'voku\\' =>
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'enshrined\\svgSanitize\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
         'Whoops\\' =>
         array (
@@ -718,6 +726,8 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\CheckExpiringSponsorships' => __DIR__ . '/../..' . '/app/Console/Commands/CheckExpiringSponsorships.php',
+        'App\\Console\\Commands\\SyncStripeInvoices' => __DIR__ . '/../..' . '/app/Console/Commands/SyncStripeInvoices.php',
         'App\\Enums\\GiftSponsorshipStatus' => __DIR__ . '/../..' . '/app/Enums/GiftSponsorshipStatus.php',
         'App\\Enums\\SmtpEncryption' => __DIR__ . '/../..' . '/app/Enums/SmtpEncryption.php',
         'App\\Enums\\SponsorshipStatus' => __DIR__ . '/../..' . '/app/Enums/SponsorshipStatus.php',
@@ -725,7 +735,10 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'App\\Events\\HorseUpdateCreated' => __DIR__ . '/../..' . '/app/Events/HorseUpdateCreated.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
         'App\\Http\\Controllers\\Admin\\BrandingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/BrandingController.php',
+        'App\\Http\\Controllers\\Admin\\DiagnosticsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DiagnosticsController.php',
         'App\\Http\\Controllers\\Admin\\GeneralSettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/GeneralSettingsController.php',
+        'App\\Http\\Controllers\\Admin\\GiftCardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/GiftCardController.php',
+        'App\\Http\\Controllers\\Admin\\HelpController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HelpController.php',
         'App\\Http\\Controllers\\Admin\\HorseController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HorseController.php',
         'App\\Http\\Controllers\\Admin\\PosterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PosterController.php',
         'App\\Http\\Controllers\\Admin\\SetupController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SetupController.php',
@@ -746,6 +759,9 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\GalleryController' => __DIR__ . '/../..' . '/app/Http/Controllers/GalleryController.php',
+        'App\\Http\\Controllers\\GiftCardDownloadController' => __DIR__ . '/../..' . '/app/Http/Controllers/GiftCardDownloadController.php',
+        'App\\Http\\Controllers\\GiftPurchaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/GiftPurchaseController.php',
+        'App\\Http\\Controllers\\GiftRedemptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/GiftRedemptionController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\SignupController' => __DIR__ . '/../..' . '/app/Http/Controllers/SignupController.php',
         'App\\Http\\Controllers\\Sponsor\\AddSponsorshipController' => __DIR__ . '/../..' . '/app/Http/Controllers/Sponsor/AddSponsorshipController.php',
@@ -781,14 +797,17 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'App\\Models\\UpdatePhoto' => __DIR__ . '/../..' . '/app/Models/UpdatePhoto.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Notifications\\AdminInviteNotification' => __DIR__ . '/../..' . '/app/Notifications/AdminInviteNotification.php',
+        'App\\Notifications\\GiftPurchaseConfirmation' => __DIR__ . '/../..' . '/app/Notifications/GiftPurchaseConfirmation.php',
         'App\\Notifications\\HorseUpdateNotification' => __DIR__ . '/../..' . '/app/Notifications/HorseUpdateNotification.php',
         'App\\Notifications\\PaymentFailedNotification' => __DIR__ . '/../..' . '/app/Notifications/PaymentFailedNotification.php',
         'App\\Notifications\\SponsorshipCancelledByAdminNotification' => __DIR__ . '/../..' . '/app/Notifications/SponsorshipCancelledByAdminNotification.php',
+        'App\\Notifications\\SponsorshipExpiringNotification' => __DIR__ . '/../..' . '/app/Notifications/SponsorshipExpiringNotification.php',
         'App\\Notifications\\WelcomeSponsorNotification' => __DIR__ . '/../..' . '/app/Notifications/WelcomeSponsorNotification.php',
         'App\\Policies\\SponsorshipPolicy' => __DIR__ . '/../..' . '/app/Policies/SponsorshipPolicy.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\MailConfigServiceProvider' => __DIR__ . '/../..' . '/app/Providers/MailConfigServiceProvider.php',
         'App\\Services\\CertificateService' => __DIR__ . '/../..' . '/app/Services/CertificateService.php',
+        'App\\Services\\GiftCardService' => __DIR__ . '/../..' . '/app/Services/GiftCardService.php',
         'App\\Services\\MailConfigProvider' => __DIR__ . '/../..' . '/app/Services/MailConfigProvider.php',
         'App\\Services\\PosterService' => __DIR__ . '/../..' . '/app/Services/PosterService.php',
         'App\\Services\\StripeConfigProvider' => __DIR__ . '/../..' . '/app/Services/StripeConfigProvider.php',
@@ -9102,6 +9121,17 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
+        'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
+        'enshrined\\svgSanitize\\ElementReference\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',
+        'enshrined\\svgSanitize\\Exceptions\\NestingException' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Exceptions/NestingException.php',
+        'enshrined\\svgSanitize\\Helper' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Helper.php',
+        'enshrined\\svgSanitize\\Sanitizer' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Sanitizer.php',
+        'enshrined\\svgSanitize\\data\\AllowedAttributes' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedAttributes.php',
+        'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+        'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
+        'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
+        'enshrined\\svgSanitize\\data\\XPath' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/XPath.php',
         'staabm\\SideEffectsDetector\\SideEffect' => __DIR__ . '/..' . '/staabm/side-effects-detector/lib/SideEffect.php',
         'staabm\\SideEffectsDetector\\SideEffectsDetector' => __DIR__ . '/..' . '/staabm/side-effects-detector/lib/SideEffectsDetector.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',

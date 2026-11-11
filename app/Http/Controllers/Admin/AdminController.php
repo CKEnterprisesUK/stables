@@ -55,8 +55,10 @@ class AdminController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make(Str::random(32)),
-            'role' => $validated['role'],
         ]);
+
+        $user->role = $validated['role'];
+        $user->save();
 
         // Generate a password reset token and send the invite email
         $token = Password::broker()->createToken($user);
@@ -97,6 +99,12 @@ class AdminController extends Controller
         ]);
 
         $user->update($validated);
+
+        // Role is not mass-assignable — set it explicitly (already validated against admin roles)
+        if ($user->role->value !== $validated['role']) {
+            $user->role = $validated['role'];
+            $user->save();
+        }
 
         return redirect()->route('admin.admins.index')
             ->with('status', 'Admin user updated successfully.');
